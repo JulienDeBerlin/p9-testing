@@ -92,7 +92,7 @@
 
 
         <!-- ===== JSR 303 - Bean validation ===== -->
-        <!-- interface -->
+         <!--interface-->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -108,12 +108,13 @@
         </dependency>
 
         <!-- ===== JSR 303 - Bean validation ===== -->
-        <!-- implementation -->
+         <!--implementation-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <scope>test</scope>
         </dependency>
+
 </dependencies>
 
 
