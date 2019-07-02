@@ -1,4 +1,4 @@
-package com.dummy.myerp.consumer;
+package com.dummy.myerp.consumer.dao.impl.db.dao;
 
 import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "applicationContext.xml")
+@ContextConfiguration(locations = "/com/dummy/myerp/consumer/applicationContext.xml")
 public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
 
