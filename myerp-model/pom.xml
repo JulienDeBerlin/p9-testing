@@ -59,8 +59,9 @@
             <scope>test</scope>
         </dependency>
 
+
         <!-- ===== JSR 303 - Bean validation ===== -->
-        <!-- implementation -->
+         <!--implementation-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
