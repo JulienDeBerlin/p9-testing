@@ -16,16 +16,16 @@ public class EcritureComptableTest {
         déplacer cette méthode dans la classe LigneEcritureComptable?
      */
 
-    private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
-        BigDecimal vDebit = pDebit == null ? null : new BigDecimal(pDebit);
-        BigDecimal vCredit = pCredit == null ? null : new BigDecimal(pCredit);
-        String vLibelle = ObjectUtils.defaultIfNull(vDebit, BigDecimal.ZERO)
-                                     .subtract(ObjectUtils.defaultIfNull(vCredit, BigDecimal.ZERO)).toPlainString();
-        LigneEcritureComptable vRetour = new LigneEcritureComptable(new CompteComptable(pCompteComptableNumero),
-                                                                    vLibelle,
-                                                                    vDebit, vCredit);
-        return vRetour;
-    }
+//    private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
+//        BigDecimal vDebit = pDebit == null ? null : new BigDecimal(pDebit);
+//        BigDecimal vCredit = pCredit == null ? null : new BigDecimal(pCredit);
+//        String vLibelle = ObjectUtils.defaultIfNull(vDebit, BigDecimal.ZERO)
+//                                     .subtract(ObjectUtils.defaultIfNull(vCredit, BigDecimal.ZERO)).toPlainString();
+//        LigneEcritureComptable vRetour = new LigneEcritureComptable(new CompteComptable(pCompteComptableNumero),
+//                                                                    vLibelle,
+//                                                                    vDebit, vCredit);
+//        return vRetour;
+//    }
 
 
     LigneEcritureComptable debit_positif_400_50 = new LigneEcritureComptable(new CompteComptable(), "libellé", new BigDecimal("400.50"), null);
@@ -116,23 +116,21 @@ public class EcritureComptableTest {
 
     @Test
     public void isEquilibree() {
-        EcritureComptable vEcriture;
-        vEcriture = new EcritureComptable();
+        EcritureComptable ecritureComptable = new EcritureComptable();
 
-        vEcriture.setLibelle("Equilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
-        Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
+        ecritureComptable.getListLigneEcriture().add(debit_positif_450);
+        ecritureComptable.getListLigneEcriture().add(credit_positif_100);
+        ecritureComptable.getListLigneEcriture().add(credit_positif_350);
+        ecritureComptable.getListLigneEcriture().add(debit_negatif_34_20);
+        ecritureComptable.getListLigneEcriture().add(credit_negatif_34_20);
+        Assert.assertTrue("Equilibrée", ecritureComptable.isEquilibree());
 
-        vEcriture.getListLigneEcriture().clear();
-        vEcriture.setLibelle("Non équilibrée");
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
-        vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
-        vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
-        Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.getListLigneEcriture().add(debit_positif_450);
+        ecritureComptable.getListLigneEcriture().add(credit_positif_100);
+        ecritureComptable.getListLigneEcriture().add(credit_positif_350);
+        ecritureComptable.getListLigneEcriture().add(debit_negatif_34_20);
+        Assert.assertFalse("Non Equilibrée", ecritureComptable.isEquilibree());
     }
 
 

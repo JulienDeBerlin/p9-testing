@@ -78,7 +78,7 @@ public class EcritureComptable {
 
 
     /**
-     * Calcul et renvoie le total des montants au débit des lignes d'écriture
+     * Calcule et renvoie le total des montants au débit des lignes d'écriture
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au débit
      */
@@ -94,7 +94,7 @@ public class EcritureComptable {
     }
 
     /**
-     * Calcul et renvoie le total des montants au crédit des lignes d'écriture
+     * Calcule et renvoie le total des montants au crédit des lignes d'écriture
      *
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
      */
@@ -110,12 +110,11 @@ public class EcritureComptable {
 
 
     /**
-     * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
+     * Renvoie TRUE si l'écriture est équilibrée (TotalDebit = TotalCrédit)
      * @return boolean
      */
     public boolean isEquilibree() {
-        boolean vRetour = this.getTotalDebit().equals(getTotalCredit());
-        return vRetour;
+        return this.getTotalDebit().equals(getTotalCredit());
     }
 
     // ==================== Méthodes ====================
