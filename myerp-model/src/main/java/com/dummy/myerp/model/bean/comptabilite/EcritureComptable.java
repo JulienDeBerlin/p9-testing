@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -75,6 +76,7 @@ public class EcritureComptable {
         return listLigneEcriture;
     }
 
+
     /**
      * Calcul et renvoie le total des montants au débit des lignes d'écriture
      *
@@ -82,13 +84,13 @@ public class EcritureComptable {
      */
     // TODO à tester
     public BigDecimal getTotalDebit() {
-        BigDecimal vRetour = BigDecimal.ZERO;
+        BigDecimal totalDebit = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
             if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+                totalDebit = totalDebit.add(vLigneEcritureComptable.getDebit());
             }
         }
-        return vRetour;
+        return totalDebit;
     }
 
     /**
@@ -97,14 +99,15 @@ public class EcritureComptable {
      * @return {@link BigDecimal}, {@link BigDecimal#ZERO} si aucun montant au crédit
      */
     public BigDecimal getTotalCredit() {
-        BigDecimal vRetour = BigDecimal.ZERO;
+        BigDecimal totalCredit = BigDecimal.ZERO;
         for (LigneEcritureComptable vLigneEcritureComptable : listLigneEcriture) {
-            if (vLigneEcritureComptable.getDebit() != null) {
-                vRetour = vRetour.add(vLigneEcritureComptable.getDebit());
+            if (vLigneEcritureComptable.getCredit() != null) {
+                totalCredit = totalCredit.add(vLigneEcritureComptable.getCredit());
             }
         }
-        return vRetour;
+        return totalCredit;
     }
+
 
     /**
      * Renvoie si l'écriture est équilibrée (TotalDebit = TotalCrédit)
