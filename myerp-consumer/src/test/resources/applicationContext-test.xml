@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <import resource="com/dummy/myerp/consumer/applicationContext.xml"/>
+
+
+    <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <constructor-arg value="javax.sql.DataSource"/>
+
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:mem:test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;INIT=create schema if not exists MYERP\;
+        runscript from 'classpath:create.sql'\;runscript from 'classpath:data.sql'"/>
+    </bean>
+
+
+
+</beans>
+
+
