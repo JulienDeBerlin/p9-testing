@@ -1,11 +1,13 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class JournalComptableTest {
 
@@ -21,7 +23,7 @@ public class JournalComptableTest {
         journalComptableList.add(journalComptable2);
         journalComptableList.add(journalComptable3);
 
-        assertEquals("le code saisi correspond à un journal", journalComptable1,  JournalComptable.getByCode(journalComptableList, "BQ"));
-        assertEquals("le code saisi ne correspond pas à un journal", null,  JournalComptable.getByCode(journalComptableList, "ZZ"));
+        assertEquals(journalComptable1, JournalComptable.getByCode(journalComptableList, "BQ"), "le code saisi correspond à un journal");
+        assertEquals( null, JournalComptable.getByCode(journalComptableList, "ZZ"), "le code saisi ne correspond pas à un journal");
     }
 }

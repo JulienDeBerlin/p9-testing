@@ -1,12 +1,12 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
+import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.Assert.assertEquals;
+
 
 
 public class EcritureComptableTest {
@@ -47,32 +47,32 @@ public class EcritureComptableTest {
         EcritureComptable ecritureComptable1  = new EcritureComptable();
         ecritureComptable1.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable1.getListLigneEcriture().add(credit_positif_450);
-        assertEquals("1 débit / 1 crédit, positif", new BigDecimal("450.00"), ecritureComptable1.getTotalDebit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable1.getTotalDebit(), "1 débit / 1 crédit, positif");
 
 
         EcritureComptable ecritureComptable2  = new EcritureComptable();
         ecritureComptable2.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable2.getListLigneEcriture().add(credit_positif_100);
         ecritureComptable2.getListLigneEcriture().add(credit_positif_350);
-        assertEquals("1 débit / 2 crédit, positif", new BigDecimal("450.00"), ecritureComptable2.getTotalDebit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable2.getTotalDebit(), "1 débit / 2 crédit, positif");
 
 
         EcritureComptable ecritureComptable3  = new EcritureComptable();
         ecritureComptable3.getListLigneEcriture().add(debit_positif_400_50);
         ecritureComptable3.getListLigneEcriture().add(debit_positif_49_50);
         ecritureComptable3.getListLigneEcriture().add(credit_positif_450);
-        assertEquals("2 débit / 1 crédit, positif", new BigDecimal("450.00"), ecritureComptable3.getTotalDebit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable3.getTotalDebit(), "2 débit / 1 crédit, positif");
 
 
         EcritureComptable ecritureComptable4  = new EcritureComptable();
         ecritureComptable4.getListLigneEcriture().add(debit_negatif_34_20);
         ecritureComptable4.getListLigneEcriture().add(credit_negatif_34_20);
-        assertEquals("1 débit / 1 crédit, négatif", new BigDecimal("-34.20"), ecritureComptable4.getTotalDebit());
+        assertEquals(new BigDecimal("-34.20"), ecritureComptable4.getTotalDebit(), "1 débit / 1 crédit, négatif");
 
         EcritureComptable ecritureComptable5  = new EcritureComptable();
         ecritureComptable5.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable5.getListLigneEcriture().add(credit_positif_350);
-        assertEquals("1 débit / 1 crédit, positif, non equilibré", new BigDecimal("450.00"), ecritureComptable5.getTotalDebit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable5.getTotalDebit(), "1 débit / 1 crédit, positif, non equilibré");
 
 
     }
@@ -83,32 +83,32 @@ public class EcritureComptableTest {
         EcritureComptable ecritureComptable1  = new EcritureComptable();
         ecritureComptable1.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable1.getListLigneEcriture().add(credit_positif_450);
-        assertEquals("1 débit / 1 crédit, positif, equilibré", new BigDecimal("450.00"), ecritureComptable1.getTotalCredit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable1.getTotalCredit(), "1 débit / 1 crédit, positif, equilibré");
 
 
         EcritureComptable ecritureComptable2  = new EcritureComptable();
         ecritureComptable2.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable2.getListLigneEcriture().add(credit_positif_100);
         ecritureComptable2.getListLigneEcriture().add(credit_positif_350);
-        assertEquals("1 débit / 2 crédit, positif, équilibré", new BigDecimal("450.00"), ecritureComptable2.getTotalCredit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable2.getTotalCredit(), "1 débit / 2 crédit, positif, équilibré");
 
 
         EcritureComptable ecritureComptable3  = new EcritureComptable();
         ecritureComptable3.getListLigneEcriture().add(debit_positif_400_50);
         ecritureComptable3.getListLigneEcriture().add(debit_positif_49_50);
         ecritureComptable3.getListLigneEcriture().add(credit_positif_450);
-        assertEquals("2 débit / 1 crédit, positif, équilibré", new BigDecimal("450.00"), ecritureComptable3.getTotalCredit());
+        assertEquals(new BigDecimal("450.00"), ecritureComptable3.getTotalCredit(), "2 débit / 1 crédit, positif, équilibré");
 
 
         EcritureComptable ecritureComptable4  = new EcritureComptable();
         ecritureComptable4.getListLigneEcriture().add(debit_negatif_34_20);
         ecritureComptable4.getListLigneEcriture().add(credit_negatif_34_20);
-        assertEquals("1 débit / 1 crédit, négatif, équilibré", new BigDecimal("-34.20"), ecritureComptable4.getTotalCredit());
+        assertEquals(new BigDecimal("-34.20"), ecritureComptable4.getTotalCredit(), "1 débit / 1 crédit, négatif, équilibré");
 
         EcritureComptable ecritureComptable5  = new EcritureComptable();
         ecritureComptable5.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable5.getListLigneEcriture().add(credit_positif_350);
-        assertEquals("1 débit / 1 crédit, positif, non equilibré", new BigDecimal("350.00"), ecritureComptable5.getTotalCredit());
+        assertEquals(new BigDecimal("350.00"), ecritureComptable5.getTotalCredit(), "1 débit / 1 crédit, positif, non equilibré");
 
 
     }
@@ -123,14 +123,14 @@ public class EcritureComptableTest {
         ecritureComptable.getListLigneEcriture().add(credit_positif_350);
         ecritureComptable.getListLigneEcriture().add(debit_negatif_34_20);
         ecritureComptable.getListLigneEcriture().add(credit_negatif_34_20);
-        Assert.assertTrue("Equilibrée", ecritureComptable.isEquilibree());
+        assertTrue(ecritureComptable.isEquilibree(), "Equilibrée");
 
         ecritureComptable.getListLigneEcriture().clear();
         ecritureComptable.getListLigneEcriture().add(debit_positif_450);
         ecritureComptable.getListLigneEcriture().add(credit_positif_100);
         ecritureComptable.getListLigneEcriture().add(credit_positif_350);
         ecritureComptable.getListLigneEcriture().add(debit_negatif_34_20);
-        Assert.assertFalse("Non Equilibrée", ecritureComptable.isEquilibree());
+        assertFalse(ecritureComptable.isEquilibree(), "Non Equilibrée");
     }
 
 

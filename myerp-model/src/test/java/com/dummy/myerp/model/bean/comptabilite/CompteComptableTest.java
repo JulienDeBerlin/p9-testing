@@ -1,24 +1,16 @@
 package com.dummy.myerp.model.bean.comptabilite;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CompteComptableTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     public void getByNumeroTest() {
@@ -39,10 +31,12 @@ public class CompteComptableTest {
         List<CompteComptable> list3elements = new ArrayList<CompteComptable>(
                 Arrays.asList(compteComptable1, compteComptable2, compteComptable3));
 
-        assertEquals("4 elements, standard", compteComptable1, CompteComptable.getByNumero(list3elements, account1));
-        assertEquals("4 elements, name is null", compteComptable2, CompteComptable.getByNumero(list3elements, account2));
-        assertEquals("4 elements, account is null", null, CompteComptable.getByNumero(list3elements, account3));
-        assertEquals("4 elements, account not available", null, CompteComptable.getByNumero(list3elements, 5555));
+        assertEquals(compteComptable1, CompteComptable.getByNumero(list3elements, account1), "4 elements, standard");
+        assertEquals(compteComptable2, CompteComptable.getByNumero(list3elements, account2), "4 elements, name is null");
+
+        //FIXME: ça ne devrait pas être possible de passer null en paramètre
+        assertEquals(null, CompteComptable.getByNumero(list3elements, account3), "4 elements, account is null");
+        assertEquals(null, CompteComptable.getByNumero(list3elements, 5555), "4 elements, account not available");
 
 
     }

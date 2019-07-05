@@ -1,19 +1,16 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-
-import com.dummy.myerp.model.validation.constraint.MontantComptable;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -24,7 +21,7 @@ public class BeanValidationTests {
     private static Validator validator;
 
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
@@ -39,12 +36,12 @@ public class BeanValidationTests {
 
         JournalComptable journalComptable = new JournalComptable("2", "journal de banque");
         Set<ConstraintViolation<JournalComptable>> constraintViolations = validator.validate(journalComptable);
-        assertEquals( "toutes contraintes respectées", 0, constraintViolations.size() );
+        assertEquals(  0, constraintViolations.size() , "toutes contraintes respectées");
 
         journalComptable = new JournalComptable("200987", "journal de banque");
         constraintViolations = validator.validate(journalComptable);
-        assertEquals( "code journal > 5 chiffres", 1, constraintViolations.size() );
-        assertEquals("code journal > 5 chiffres", "la taille doit être entre 1 et 5",  constraintViolations.iterator().next().getMessage());
+        assertEquals(  1, constraintViolations.size() , "code journal > 5 chiffres");
+        assertEquals( "la taille doit être entre 1 et 5",  constraintViolations.iterator().next().getMessage(), "code journal > 5 chiffres");
 
     }
 
@@ -57,17 +54,17 @@ public class BeanValidationTests {
         CompteComptable compteComptable = new CompteComptable(1232, "Subventions publiques");
         LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("150000"), null );
         Set<ConstraintViolation<LigneEcritureComptable>> constraintViolations = validator.validate(ligneEcritureComptable);
-        assertEquals( "toutes contraintes respectées", 0, constraintViolations.size() );
+        assertEquals( 0, constraintViolations.size() , "toutes contraintes respectées");
 
         ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("150000.432"), null );
         constraintViolations = validator.validate(ligneEcritureComptable);
-        assertEquals( "nb décimaux > 2", 1, constraintViolations.size() );
-        assertEquals("nb décimaux > 2", "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage());
+        assertEquals(  1, constraintViolations.size(), "nb décimaux > 2" );
+        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage(), "nb décimaux > 2");
 
         ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("22226222222223.23"), null );
         constraintViolations = validator.validate(ligneEcritureComptable);
-        assertEquals( "nb entiers > 13", 1, constraintViolations.size() );
-        assertEquals("nb entiers > 13", "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage());
+        assertEquals( 1, constraintViolations.size(), "nb entiers > 13" );
+        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage(), "nb entiers > 13");
 
 
     }
