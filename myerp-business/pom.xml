@@ -55,7 +55,7 @@
         </dependency>
 
         <!-- ===== Spring JDBC/Tx ===== -->
-        <!-- spring-tx : transaction, JCA, DAO -->
+         spring-tx : transaction, JCA, DAO
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
