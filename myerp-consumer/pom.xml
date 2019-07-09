@@ -58,15 +58,8 @@
 
         <!-- ========== Test Dependencies ========== -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.github.sbrannen</groupId>
+            <artifactId>spring-test-junit5</artifactId>
         </dependency>
 
         <!-- ===== Database (pour les tests) ===== -->
@@ -80,18 +73,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.sbrannen</groupId>
-            <artifactId>spring-test-junit5</artifactId>
             <scope>test</scope>
         </dependency>
 
