@@ -6,6 +6,11 @@
 
 
 
+    <!-- =======   Link to applicationContext.xml, as defined in model module  ====== -->
+    <import resource="classpath:com/dummy/myerp/model/applicationContext.xml"/>
+
+
+
     <!-- ====================   Consumer   ==================== -->
     <!-- AbstractDbConsumer -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -39,7 +44,9 @@
 
 
     <!-- DaoProxy -->
-    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
+    <bean id="DaoProxy"
+          class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl"
+          factory-method="getInstance">
         <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
     </bean>
 
@@ -63,10 +70,6 @@
         <property name="password" value="myerp"/>
 
     </bean>
-
-
-
-
 
     <!-- ========== SQL ========== -->
     <import resource="sqlContext.xml"/>

@@ -12,17 +12,24 @@ import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 public class BusinessProxyImpl implements BusinessProxy {
 
     // ==================== Attributs Static ====================
-    /** Le Proxy d'accès à la couche Consumer-DAO */
+    /**
+     * Le Proxy d'accès à la couche Consumer-DAO
+     */
     private static DaoProxy daoProxy;
-
+    // FIXME pourquoi static?
 
     // ==================== Attributs ====================
-    /** The Comptabilite manager. */
+    /**
+     * The Comptabilite manager.
+     */
     private ComptabiliteManager comptabiliteManager = new ComptabiliteManagerImpl();
+    // FIXME pourquoi on ne confie pas l'instanciation à Spring?
 
 
     // ==================== Constructeurs ====================
-    /** Instance unique de la classe (design pattern Singleton) */
+    /**
+     * Instance unique de la classe (design pattern Singleton)
+     */
     private static final BusinessProxyImpl INSTANCE = new BusinessProxyImpl();
 
     /**
@@ -40,7 +47,7 @@ public class BusinessProxyImpl implements BusinessProxy {
     /**
      * Renvoie l'instance unique de la classe (design pattern Singleton).
      *
-     * @param pDaoProxy -
+     * @param pDaoProxy           -
      * @param pTransactionManager -
      * @return {@link BusinessProxyImpl}
      */

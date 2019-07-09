@@ -185,7 +185,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * {@inheritDoc}
      */
     @Override
-    public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
+    public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException, NotFoundException {
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);

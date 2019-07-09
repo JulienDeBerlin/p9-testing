@@ -6,7 +6,8 @@
 
     <!-- ========== Model ========== -->
 
-
+    <!-- =======   Link to applicationContext.xml, as defined in technical module  ====== -->
+    <import resource="classpath:com/dummy/myerp/technical/applicationContext.xml"/>
 
 
 </beans>
