@@ -215,7 +215,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         SQLupdateEcritureComptable = pSQLupdateEcritureComptable;
     }
     @Override
-    public void updateEcritureComptable(EcritureComptable pEcritureComptable) {
+    public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws NotFoundException {
         // ===== Ecriture Comptable
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
         MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
@@ -225,7 +225,12 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("date", pEcritureComptable.getDate(), Types.DATE);
         vSqlParams.addValue("libelle", pEcritureComptable.getLibelle());
 
-        vJdbcTemplate.update(SQLupdateEcritureComptable, vSqlParams);
+        try {
+            getEcritureComptable(pEcritureComptable.getId());
+            vJdbcTemplate.update(SQLupdateEcritureComptable, vSqlParams);
+        } catch (NotFoundException vEx) {
+            throw new NotFoundException("La BDD ne contient pas d'écriture comptable avec l'id=" + pEcritureComptable.getId());
+        }
 
         // ===== Liste des lignes d'écriture
         this.deleteListLigneEcritureComptable(pEcritureComptable.getId());
