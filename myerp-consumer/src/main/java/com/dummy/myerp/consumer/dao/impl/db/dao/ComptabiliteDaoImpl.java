@@ -232,6 +232,9 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
             throw new NotFoundException("La BDD ne contient pas d'écriture comptable avec l'id=" + pEcritureComptable.getId());
         }
 
+        vJdbcTemplate.update(SQLupdateEcritureComptable, vSqlParams);
+
+
         // ===== Liste des lignes d'écriture
         this.deleteListLigneEcritureComptable(pEcritureComptable.getId());
         this.insertListLigneEcritureComptable(pEcritureComptable);

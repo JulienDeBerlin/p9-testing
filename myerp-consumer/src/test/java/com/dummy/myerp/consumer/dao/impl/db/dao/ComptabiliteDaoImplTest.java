@@ -8,6 +8,7 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -22,7 +23,6 @@ import java.util.List;
 import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "/com/dummy/myerp/consumer/applicationContext.xml")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -35,48 +35,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
-//    @Autowired
-//    private  DriverManagerDataSource dataSourceMYERP;
-
     private static ComptabiliteDaoImpl comptabiliteDaoImpl;
 
-    private static LigneEcritureComptable debit_positif_400_50 = new LigneEcritureComptable(new CompteComptable(512), "libellé", new BigDecimal("400.50"), null);
-    private static LigneEcritureComptable debit_positif_49_50 = new LigneEcritureComptable(new CompteComptable(512), "libellé", new BigDecimal("49.50"), null);
     private static LigneEcritureComptable debit_positif_450 = new LigneEcritureComptable(new CompteComptable(512), "libellé", new BigDecimal("450.00"), null);
     private static LigneEcritureComptable debit_negatif_34_20 = new LigneEcritureComptable(new CompteComptable(512), "libellé", new BigDecimal("-34.23"), null);
-
-    private static LigneEcritureComptable credit_positif_450 = new LigneEcritureComptable(new CompteComptable(706), "libellé", null, new BigDecimal("450.00"));
     private static LigneEcritureComptable credit_positif_100 = new LigneEcritureComptable(new CompteComptable(401), "libellé", null, new BigDecimal("100.00"));
     private static LigneEcritureComptable credit_positif_350 = new LigneEcritureComptable(new CompteComptable(401), "libellé", null, new BigDecimal("350.00"));
     private static LigneEcritureComptable credit_negatif_34_20 = new LigneEcritureComptable(new CompteComptable(706), "libellé", null, new BigDecimal("-34.23"));
-
 
     @BeforeAll
     public static void setupBeforeAll() {
         comptabiliteDaoImpl = ComptabiliteDaoImpl.getInstance();
         ComptabiliteDaoImplTest instance = new ComptabiliteDaoImplTest();
     }
-
-////    @BeforeEach
-//    @Rollback(value = false)
-//    public static void rebuildDatabase(DriverManagerDataSource dataSource) throws SQLException {
-//
-//        try (Connection connection = dataSource.getConnection();
-//             Statement statement = connection.createStatement()) {
-//            statement.executeUpdate("TRUNCATE db_myerp.myerp.journal_comptable CASCADE ");
-//            statement.executeUpdate("TRUNCATE db_myerp.myerp.compte_comptable CASCADE ");
-//
-//            ScriptRunner runner = new ScriptRunner(connection, false, false);
-//            //FIXME: utiliser un chemin relatif, mais comment faire?
-//            String file = "/Users/admin/Documents/PROGRAMMING/OPENCLASSROOMS/P9/myErp/src/myerp-consumer/src/main/resources/com/dummy/myerp/consumer/populateDB.sql";
-//            try {
-//                runner.runScript(new BufferedReader(new FileReader(file)));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
 
     @Test
     @Order(1)
@@ -126,10 +97,8 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
         //TODO: étudier les expressions lambdas
         int id = -49;
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(id), "id non existant");
-        assertEquals( "EcritureComptable non trouvée : id=" + id, thrown.getMessage());
-
+        assertEquals("EcritureComptable non trouvée : id=" + id, thrown.getMessage());
     }
-
 
     @Test
     @Order(6)
@@ -155,13 +124,14 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
         //TODO: étudier les expressions lambdas
         String ref = "AA";
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptableByRef(ref), "référence non existante");
-        assertEquals( "EcritureComptable non trouvée : reference=" + ref, thrown.getMessage());
+        assertEquals("EcritureComptable non trouvée : reference=" + ref, thrown.getMessage());
 
     }
 
     @Test
     @Order(8)
-    public void insertEcritureComptable() throws NotFoundException {
+    @DisplayName("insertEcritureComptable / standard")
+    public void insertEcritureComptable1() throws NotFoundException {
 
         EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
 
@@ -169,7 +139,6 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
         // FIXME: est-ce que la deuxième partie de la ref correspond à l'id ? incrémentation automatique?
         ecritureComptableToBeInserted.setReference("BQ-2016/23663");
-
 
         LocalDate localDate = LocalDate.of(2019, 01, 28);
         Date date = valueOf(localDate);
@@ -198,9 +167,32 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
         // FIXME: que ce passe-t-il si on laisse des champs vides (qui ne sont pas censés l'être)
     }
 
+    @Test
+    @Order(8)
+    @DisplayName("insertEcritureComptable / (@notnull) date field is null")
+    public void insertEcritureComptable2() throws NotFoundException {
+
+        EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
+
+        ecritureComptableToBeInserted.setJournal(new JournalComptable("BQ", "Journal de Banque"));
+
+        // FIXME: est-ce que la deuxième partie de la ref correspond à l'id ? incrémentation automatique?
+        ecritureComptableToBeInserted.setReference("BQ-2016/23663");
+
+        ecritureComptableToBeInserted.setLibelle("Subvention Fondation LVMH");
+
+        ecritureComptableToBeInserted.getListLigneEcriture().add(credit_positif_100);
+        ecritureComptableToBeInserted.getListLigneEcriture().add(credit_positif_350);
+        ecritureComptableToBeInserted.getListLigneEcriture().add(debit_positif_450);
+
+        List<EcritureComptable> ecritureComptableListBeforeInsertion = comptabiliteDaoImpl.getListEcritureComptable();
+
+        DataIntegrityViolationException thrown = assertThrows(DataIntegrityViolationException.class, () -> comptabiliteDaoImpl.insertEcritureComptable(ecritureComptableToBeInserted));
+        // FIXME: est-ce qu'il ne faudra pas catcher ces exceptions dans le code?
+    }
 
     @Test
-    @Order(9)
+    @Order(10)
     @DisplayName("updateEcritureComptable / Id existant / update libellé")
     public void updateEcritureComptable1() throws NotFoundException {
 
@@ -218,9 +210,8 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
         assertEquals("Subvention conseil régional", ecritureComptableToBeUpdated.getLibelle());
     }
 
-
     @Test
-    @Order(10)
+    @Order(11)
     @DisplayName("updateEcritureComptable / Id existant / update lignes d'écriture")
     public void updateEcritureComptable2() throws NotFoundException {
 
@@ -245,11 +236,10 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
             bigDecimalTest = (l.getCredit() == null) ? bigDecimalTest.add(l.getDebit()) : bigDecimalTest.add(l.getCredit());
         }
         assertEquals(bigDecimalTest, BigDecimal.valueOf(-68.46));
-
     }
 
     @Test
-    @Order(11)
+    @Order(12)
     @DisplayName("updateEcritureComptable / Id non existant")
     public void updateEcritureComptable3() throws NotFoundException {
 
@@ -261,21 +251,38 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
         //Test si on essaie de faire un update sur un id non existant
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.updateEcritureComptable(ecritureComptable), "id non existant en BDD");
-        assertEquals( "La BDD ne contient pas d'écriture comptable avec l'id="  + ecritureComptable.getId(), thrown.getMessage());
-
-    }
-
-    @Test
-    @Order(12)
-    public void deleteEcritureComptable() {
-        fail();
+        assertEquals("La BDD ne contient pas d'écriture comptable avec l'id=" + ecritureComptable.getId(), thrown.getMessage());
     }
 
     @Test
     @Order(13)
-    public void deleteListLigneEcritureComptable() {
-        fail();
+    @DisplayName("deleteEcritureComptable / Id existant")
+    public void deleteEcritureComptable1() {
+
+        // teste que la liste des écritures comptable est réduite d'une entité
+        int nbEcritureComptableBeforeDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
+        comptabiliteDaoImpl.deleteEcritureComptable(-1);
+        int nbEcritureComptableAfterDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
+        assertTrue(nbEcritureComptableAfterDelete == nbEcritureComptableBeforeDelete - 1);
+
+        // teste que l'entitée supprimée n'est plus disponible
+        NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(-1), "id non existant");
+        assertEquals("EcritureComptable non trouvée : id=-1", thrown.getMessage());
+
+        // teste que les lignes d'écriture comptable associée ont aussi été supprimées
+        /* FIXME: pour effectuer ce test, il faudrait p.e. pouvoir vérifier que le nombre de lignes d'écriture a été réduit.
+            Or on ne dispose pas de méthode pour cela. Est-ce ok si je crée une nlle méthode avec requête SQL? */
     }
 
+    @Test
+    @Order(14)
+    @DisplayName("deleteEcritureComptable / Id non existant")
+    public void deleteEcritureComptable2() {
 
+        // teste que la liste des écritures comptable reste inchangée
+        int nbEcritureComptableBeforeDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
+        comptabiliteDaoImpl.deleteEcritureComptable(1000);
+        int nbEcritureComptableAfterDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
+        assertTrue(nbEcritureComptableAfterDelete == nbEcritureComptableBeforeDelete);
+    }
 }
