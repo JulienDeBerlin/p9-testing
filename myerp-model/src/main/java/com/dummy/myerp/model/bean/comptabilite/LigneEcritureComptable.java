@@ -1,10 +1,10 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-import java.math.BigDecimal;
+import com.dummy.myerp.model.validation.constraint.MontantComptable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.dummy.myerp.model.validation.constraint.MontantComptable;
+import java.math.BigDecimal;
 
 
 /**
@@ -14,11 +14,11 @@ public class LigneEcritureComptable {
 
     // ==================== Attributs ====================
     /** Compte Comptable */
-    @NotNull
+    @NotNull (message = "Le compte comptable ne doit pas être null.")
     private CompteComptable compteComptable;
 
     /** The Libelle. */
-    @Size(max = 200)
+    @Size(message = "Le libellé ne doit pas excéder 200 caractères.", max = 200)
     private String libelle;
 
     /** The Debit. */

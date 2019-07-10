@@ -1,9 +1,9 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-import java.util.List;
-import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -13,13 +13,13 @@ public class JournalComptable {
 
     // ==================== Attributs ====================
     /** code */
-    @NotNull
+    @NotNull (message = "Le code ne doit pas être null.")
     @Size(min = 1, max = 5)
     private String code;
 
     /** libelle */
-    @NotNull
-    @Size(min = 1, max = 150)
+    @NotNull (message = "Le libellé ne doit pas être null.")
+    @Size(message = "Le libellé doit être compris entre 1 et 150 caractères.", min = 1, max = 150)
     private String libelle;
 
 

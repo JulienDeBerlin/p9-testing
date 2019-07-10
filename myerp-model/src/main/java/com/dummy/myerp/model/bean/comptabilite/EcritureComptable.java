@@ -1,16 +1,16 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.apache.commons.lang3.StringUtils;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -22,21 +22,23 @@ public class EcritureComptable {
     /** The Id. */
     private Integer id;
     /** Journal comptable */
-    @NotNull private JournalComptable journal;
+    @NotNull (message = "Le journal comptable ne doit pas être null.")
+    private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
+    @Pattern(message = "Le format de la référence n'est pas correct.", regexp = "\\d{1,5}-\\d{4}/\\d{5}")
     private String reference;
     /** The Date. */
-    @NotNull private Date date;
+    @NotNull (message = "La date ne doit pas être null.")
+    private Date date;
 
     /** The Libelle. */
-    @NotNull
-    @Size(min = 1, max = 200)
+    @NotNull (message = "Le libellé ne doit pas être null.")
+    @Size(message = "Le libellé doit être compris entre 1 et 200 caractères.", min = 1, max = 200)
     private String libelle;
 
     /** La liste des lignes d'écriture comptable. */
     @Valid
-    @Size(min = 2)
+    @Size(message = "Il faut au minimum deux lignes d'écriture comptable", min = 2)
     private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
 
