@@ -1,13 +1,9 @@
 package com.dummy.myerp.model.validation.constraint;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Digits;
+import java.lang.annotation.*;
 
 
 /**
@@ -23,7 +19,7 @@ import javax.validation.constraints.Digits;
  *      <li>{@link java.math.BigDecimal}</li>
  *  </ul>
  */
-@Digits(integer = 13, fraction = 2, message = "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux")
+@Digits(integer = 13, fraction = 2, message = "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux.")
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})

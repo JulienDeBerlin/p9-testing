@@ -38,7 +38,7 @@ public class EcritureComptable {
 
     /** La liste des lignes d'écriture comptable. */
     @Valid
-    @Size(message = "Il faut au minimum deux lignes d'écriture comptable", min = 2)
+    @Size(message = "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.", min = 2)
     private final List<LigneEcritureComptable> listLigneEcriture = new ArrayList<>();
 
 

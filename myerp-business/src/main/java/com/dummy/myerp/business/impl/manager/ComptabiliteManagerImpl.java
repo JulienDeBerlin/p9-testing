@@ -96,8 +96,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les règles de gestion
      */
-    // TODO tests à compléter
-    protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
+    protected void
+    checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
 
@@ -118,6 +118,9 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }
 
         // ===== RG_Compta_3 : une écriture comptable doit avoir au moins 2 lignes d'écriture (1 au débit, 1 au crédit)
+        // FIXME: Cette contrainte est assurée par @Size (min = 2) combinée à la validation de RG_Compta_2
+        //  (une écriture doit être équilibrée). Le code ci-dessous est donc inutile :
+        /*
         int vNbrCredit = 0;
         int vNbrDebit = 0;
         for (LigneEcritureComptable vLigneEcritureComptable : pEcritureComptable.getListLigneEcriture()) {
@@ -137,6 +140,20 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 || vNbrDebit < 1) {
             throw new FunctionalException(
                     "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
+        }
+        */
+
+        // FIXME: en revanche, il convient de vérifier qu'une ligne d'écriture ne peut pas avoir un
+        //  montant au crédit ET au débit :
+
+        for (LigneEcritureComptable vLigneEcritureComptable : pEcritureComptable.getListLigneEcriture()) {
+            if (BigDecimal.ZERO.compareTo(ObjectUtils.defaultIfNull(vLigneEcritureComptable.getCredit(),
+                    BigDecimal.ZERO)) != 0 && (BigDecimal.ZERO.compareTo(ObjectUtils.defaultIfNull(vLigneEcritureComptable.getDebit(),
+                    BigDecimal.ZERO)) != 0)) {
+
+                throw new FunctionalException(
+                        "Une écriture comptable ne doit pas avoir un montant au débit et au crédit.");
+            }
         }
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
@@ -192,7 +209,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * {@inheritDoc}
      */
     @Override
-    public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException, NotFoundException {
+    public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws
+            FunctionalException, NotFoundException {
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);
