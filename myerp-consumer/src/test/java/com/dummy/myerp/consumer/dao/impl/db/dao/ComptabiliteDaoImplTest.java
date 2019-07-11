@@ -1,6 +1,5 @@
 package com.dummy.myerp.consumer.dao.impl.db.dao;
 
-import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
@@ -33,7 +32,9 @@ import static org.junit.jupiter.api.Assertions.*;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/truncateDB.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
 
-public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
+public class ComptabiliteDaoImplTest
+// FIXME a-t-on besoin de:        extends AbstractDbConsumer
+{
 
     private static ComptabiliteDaoImpl comptabiliteDaoImpl;
 
@@ -284,5 +285,41 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
         comptabiliteDaoImpl.deleteEcritureComptable(1000);
         int nbEcritureComptableAfterDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
         assertTrue(nbEcritureComptableAfterDelete == nbEcritureComptableBeforeDelete);
+    }
+
+
+    @Test
+    @Order(15)
+
+
+    void getSequenceJournal() throws NotFoundException {
+
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setLibelle("Libellé");
+
+        LocalDate localDate = LocalDate.of(2016, 12, 28);
+        Date date = valueOf(localDate);
+        ecritureComptable.setDate(date);
+
+        // Journal existant
+        ecritureComptable.setJournal(new JournalComptable("BQ", "Journal de banque"));
+        assertEquals(51, comptabiliteDaoImpl.getSequenceJournal(ecritureComptable).getDerniereValeur());
+
+        // Journal non existant
+        ecritureComptable.setJournal(new JournalComptable("WW", "Journal de banque"));
+        NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getSequenceJournal(ecritureComptable).getDerniereValeur(), "journal non existant");
+        assertEquals("SequenceEcritureComptable pour ce journal et cette année inexistante", thrown.getMessage());
+
+
+//        // Pas de journal ouvert pour l'année selectionnée
+        localDate = LocalDate.of(2019, 12, 28);
+        date = valueOf(localDate);
+        ecritureComptable.setDate(date);
+        ecritureComptable.setJournal(new JournalComptable("BQ", "Journal de banque"));
+
+        NotFoundException thrown2 = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getSequenceJournal(ecritureComptable).getDerniereValeur(), "journal non existant");
+        assertEquals("SequenceEcritureComptable pour ce journal et cette année inexistante", thrown2.getMessage());
+
+
     }
 }
