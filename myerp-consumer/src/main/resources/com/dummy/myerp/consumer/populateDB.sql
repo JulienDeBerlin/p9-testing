@@ -54,7 +54,7 @@ INSERT INTO MYERP.journal_comptable (code, libelle) VALUES (	'OD',	'Opérations 
 --- sequence_ecriture_comptable
 --- ================================================================================
 --		sequence_ecriture_comptable
---		journal_code	annee	derniere_valeur
+--		journalCode	annee	derniere_valeur
 --		AC	2016	40
 --		VE	2016	41
 --		BQ	2016	51
@@ -62,7 +62,7 @@ INSERT INTO MYERP.journal_comptable (code, libelle) VALUES (	'OD',	'Opérations 
 --
 --	sequence_ecriture_comptable
 --
---		journal_code	annee	derniere_valeur
+--		journalCode	annee	derniere_valeur
 --		VARCHAR	INTEGER	INTEGER
 INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'AC',	2016,	40	);
 INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) values (	'VE',	2016,	41	);
@@ -77,7 +77,7 @@ INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_val
 --- ecriture_comptable
 --- ================================================================================
 --		ecriture_comptable
---		id	journal_code	reference	date	libelle
+--		id	journalCode	reference	date	libelle
 --		-1	AC	AC-2016/00001	31/12/16	Cartouches d’imprimante
 --		-2	VE	VE-2016/00002	30/12/16	TMA Appli Xxx
 --		-3	BQ	BQ-2016/00003	29/12/16	Paiement Facture F110001
@@ -86,7 +86,7 @@ INSERT INTO MYERP.sequence_ecriture_comptable (journal_code, annee, derniere_val
 --
 --	ecriture_comptable
 --
---		id	journal_code	reference	date	libelle
+--		id	journalCode	reference	date	libelle
 --		INTEGER	VARCHAR	VARCHAR	DATE	VARCHAR
 INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-1,	'AC',	'AC-2016/00001',	'2016-12-31',	'Cartouches d’imprimante'	);
 INSERT INTO MYERP.ecriture_comptable (id,journal_code,reference,date,libelle) VALUES (	-2,	'VE',	'VE-2016/00002',	'2016-12-30',	'TMA Appli Xxx'	);

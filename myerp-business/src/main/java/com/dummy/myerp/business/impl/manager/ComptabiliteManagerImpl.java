@@ -2,10 +2,7 @@ package com.dummy.myerp.business.impl.manager;
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.apache.commons.lang3.ObjectUtils;
@@ -15,9 +12,12 @@ import org.springframework.transaction.TransactionStatus;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import static com.dummy.myerp.technical.staticTools.StaticTools.convertDateToCalendar;
 
 
 /**
@@ -60,22 +60,34 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     /**
      * {@inheritDoc}
      */
-    // TODO à tester
     @Override
-    public synchronized void addReference(EcritureComptable pEcritureComptable) {
-        // TODO à implémenter
-        // Bien se réferer à la JavaDoc de cette méthode !
-        /* Le principe :
-                1.  Remonter depuis la persitance la dernière valeur de la séquence du journal pour l'année de l'écriture
-                    (table sequence_ecriture_comptable)
-                2.  * S'il n'y a aucun enregistrement pour le journal pour l'année concernée :
-                        1. Utiliser le numéro 1.
-                    * Sinon :
-                        1. Utiliser la dernière valeur + 1
-                3.  Mettre à jour la référence de l'écriture avec la référence calculée (RG_Compta_5)
-                4.  Enregistrer (insert/update) la valeur de la séquence en persitance
-                    (table sequence_ecriture_comptable)
-         */
+    public synchronized void addReference(EcritureComptable pEcritureComptable) throws FunctionalException {
+
+        int year = convertDateToCalendar(pEcritureComptable.getDate()).get(Calendar.YEAR);
+        String referenceEcritureComptable = pEcritureComptable.getJournal().getCode() + "-" + year + "/";
+
+
+        if (!getDaoProxy().getComptabiliteDao().isCodeJournalValid(pEcritureComptable.getJournal().getCode())) {
+            throw new FunctionalException("Le code journal n'existe pas en base de donnée.");
+        } else {
+
+            try {
+                SequenceEcritureComptable sequenceEcritureComptable = getDaoProxy().getComptabiliteDao().getSequenceJournal(pEcritureComptable);
+
+                if (sequenceEcritureComptable.getDerniereValeur() == 99999){
+                    throw new FunctionalException("Nombre maximal d'écritures atteint. Veuillez choisir un nouveau journal");
+                } else {
+                    referenceEcritureComptable += ( StringUtils.leftPad(String.valueOf(sequenceEcritureComptable.getDerniereValeur() + 1), 5, "0"));
+                    getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequenceEcritureComptable);
+                }
+
+            } catch (NotFoundException notFoundException) {
+                referenceEcritureComptable += "00001";
+                getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(year, pEcritureComptable.getJournal().getCode());
+            }
+            pEcritureComptable.setReference(referenceEcritureComptable);
+        }
+
     }
 
     /**

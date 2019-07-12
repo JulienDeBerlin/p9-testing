@@ -1,9 +1,6 @@
 package com.dummy.myerp.consumer.dao.impl.db.dao;
 
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -290,8 +287,6 @@ public class ComptabiliteDaoImplTest
 
     @Test
     @Order(15)
-
-
     void getSequenceJournal() throws NotFoundException {
 
         EcritureComptable ecritureComptable = new EcritureComptable();
@@ -310,7 +305,6 @@ public class ComptabiliteDaoImplTest
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getSequenceJournal(ecritureComptable).getDerniereValeur(), "journal non existant");
         assertEquals("SequenceEcritureComptable pour ce journal et cette année inexistante", thrown.getMessage());
 
-
 //        // Pas de journal ouvert pour l'année selectionnée
         localDate = LocalDate.of(2019, 12, 28);
         date = valueOf(localDate);
@@ -320,6 +314,46 @@ public class ComptabiliteDaoImplTest
         NotFoundException thrown2 = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getSequenceJournal(ecritureComptable).getDerniereValeur(), "journal non existant");
         assertEquals("SequenceEcritureComptable pour ce journal et cette année inexistante", thrown2.getMessage());
 
+    }
 
+    @Test
+    public void isCodeJournalValid() {
+
+        // Journal existant
+        assertTrue(comptabiliteDaoImpl.isCodeJournalValid("BQ"));
+
+        // Journal non existant
+        assertFalse(comptabiliteDaoImpl.isCodeJournalValid("UU"));
+    }
+
+    @Test
+    public void getListSequenceEcritureComptable() {
+        List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
+        assertEquals(4, list.size());
+    }
+
+
+    @Test
+    public void insertSequenceEcritureComptable() {
+        comptabiliteDaoImpl.insertSequenceEcritureComptable(2017, "BQ");
+        List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
+        assertEquals(5, list.size());
+        assertEquals(2017, list.get(4).getAnnee());
+    }
+
+    @Test
+    public void updateSequenceEcritureComptable() throws NotFoundException {
+        List<SequenceEcritureComptable> listBeforeUpdate = comptabiliteDaoImpl.getListSequenceEcritureComptable();
+        SequenceEcritureComptable sequenceBeforeUpdate = listBeforeUpdate.get(0);
+
+        assertEquals(2016, sequenceBeforeUpdate.getAnnee());
+        assertEquals("AC", sequenceBeforeUpdate.getJournalCode());
+        assertEquals(40, sequenceBeforeUpdate.getDerniereValeur());
+
+        SequenceEcritureComptable sequenceAfterUpdate = comptabiliteDaoImpl.updateSequenceEcritureComptable(sequenceBeforeUpdate);
+
+        assertEquals(2016, sequenceAfterUpdate.getAnnee());
+        assertEquals("AC", sequenceAfterUpdate.getJournalCode());
+        assertEquals(41, sequenceAfterUpdate.getDerniereValeur());
     }
 }

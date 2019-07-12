@@ -48,10 +48,10 @@
             <value>
                 INSERT INTO myerp.ecriture_comptable (
                     id,
-                    journal_code, reference, date, libelle
+                    journalCode, reference, date, libelle
                 ) VALUES (
                     nextval('myerp.ecriture_comptable_id_seq'),
-                    :journal_code, :reference, :date, :libelle
+                    :journalCode, :reference, :date, :libelle
                 )
             </value>
         </property>
@@ -69,7 +69,7 @@
         <property name="SQLupdateEcritureComptable">
             <value>
                 UPDATE myerp.ecriture_comptable SET
-                    journal_code = :journal_code,
+                    journalCode = :journalCode,
                     reference = :reference,
                     date = :date,
                     libelle = :libelle

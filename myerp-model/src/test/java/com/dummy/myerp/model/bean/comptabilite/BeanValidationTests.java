@@ -59,12 +59,16 @@ public class BeanValidationTests {
         ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("150000.432"), null );
         constraintViolations = validator.validate(ligneEcritureComptable);
         assertEquals(  1, constraintViolations.size(), "nb décimaux > 2" );
-        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage(), "nb décimaux > 2");
+        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux.",  constraintViolations.iterator().next().getMessage(), "nb décimaux > 2");
 
         ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("22226222222223.23"), null );
         constraintViolations = validator.validate(ligneEcritureComptable);
         assertEquals( 1, constraintViolations.size(), "nb entiers > 13" );
-        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux",  constraintViolations.iterator().next().getMessage(), "nb entiers > 13");
+        assertEquals( "Le format du montant comptable est invalide: max 13 chiffres et 2 décimaux.",  constraintViolations.iterator().next().getMessage(), "nb entiers > 13");
+
+        ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("250"), null );
+        constraintViolations = validator.validate(ligneEcritureComptable);
+        assertEquals( 1, constraintViolations.size(), "nombre saisi sans décimaux" );
 
 
     }

@@ -2,11 +2,9 @@ package com.dummy.myerp.business.impl.manager;
 
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,13 +13,16 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -225,10 +226,61 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
     //--------------------------------------TESTS FONCTIONS CRUD-------------------------------------------------//
 
+
+    @Test
+    @DisplayName("addReference / tests if reference is added")
+    public void addReference() throws FunctionalException, NotFoundException {
+
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setJournal(new JournalComptable("TR", "Achat"));
+
+        LocalDate localDate = LocalDate.of(2020, 12, 28);
+        Date date = valueOf(localDate);
+        ecritureComptable.setDate(date);
+
+        ecritureComptable.setLibelle("Libelle");
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                null, new BigDecimal(123),
+                null));
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                null, null,
+                new BigDecimal(123)));
+
+
+        // Code journal inexistant en BDD
+        when(getDaoProxy().getComptabiliteDao().isCodeJournalValid(Mockito.anyString())).thenReturn(false);
+        FunctionalException thrown = assertThrows(FunctionalException.class, () -> manager.addReference(ecritureComptable));
+        assertEquals("Le code journal n'existe pas en base de donnée.", thrown.getMessage());
+
+        // Code journal et année existants en BDD
+        when(getDaoProxy().getComptabiliteDao().isCodeJournalValid(Mockito.anyString())).thenReturn(true);
+
+        SequenceEcritureComptable sequenceEcritureComptable = new SequenceEcritureComptable();
+        sequenceEcritureComptable.setJournalCode("TR");
+        sequenceEcritureComptable.setAnnee(2020);
+        sequenceEcritureComptable.setDerniereValeur(342);
+
+        when(getDaoProxy().getComptabiliteDao().getSequenceJournal(any(EcritureComptable.class))).thenReturn(sequenceEcritureComptable);
+
+        assertEquals(null, ecritureComptable.getReference());
+        manager.addReference(ecritureComptable);
+        assertEquals("TR-2020/00343", ecritureComptable.getReference());
+
+
+        // Code journal existant et année inexistante en BDD
+        when(getDaoProxy().getComptabiliteDao().getSequenceJournal(any(EcritureComptable.class))).thenThrow(NotFoundException.class);
+        manager.addReference(ecritureComptable);
+        assertEquals("TR-2020/00001", ecritureComptable.getReference());
+
+        // FIXME : test de l'insert ou update de la table SequenceEcritureComptable fait dans la couche DAO. Ok?
+
+    }
+
+
     @Test
     public void getListCompteComptable() {
         List<CompteComptable> compteComptableListMock =
-                new ArrayList<>(Arrays.asList(  new CompteComptable(12, "libellé"),
+                new ArrayList<>(Arrays.asList(new CompteComptable(12, "libellé"),
                         new CompteComptable(13, "libellé"),
                         new CompteComptable(14, "libellé")));
         when(getDaoProxy().getComptabiliteDao().getListCompteComptable()).thenReturn(compteComptableListMock);
@@ -242,7 +294,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     @Test
     public void getListJournalComptable() {
         List<JournalComptable> journalComptableListMock =
-                new ArrayList<>(Arrays.asList(  new JournalComptable("AB", "journal de banque"),
+                new ArrayList<>(Arrays.asList(new JournalComptable("AB", "journal de banque"),
                         new JournalComptable("JU", "journal fournisseurs")));
         when(getDaoProxy().getComptabiliteDao().getListJournalComptable()).thenReturn(journalComptableListMock);
 
@@ -255,15 +307,14 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     @Test
     public void getListEcritureComptable() {
         List<EcritureComptable> ecritureComptableListMock =
-                new ArrayList<>(Arrays.asList(   new EcritureComptable(),
+                new ArrayList<>(Arrays.asList(new EcritureComptable(),
                         new EcritureComptable(),
                         new EcritureComptable()));
         when(getDaoProxy().getComptabiliteDao().getListEcritureComptable()).thenReturn(ecritureComptableListMock);
 
-        List <EcritureComptable> ecritureComptableList = manager.getListEcritureComptable();
+        List<EcritureComptable> ecritureComptableList = manager.getListEcritureComptable();
         assertEquals(3, ecritureComptableList.size());
     }
-
 
 
 //    @Test

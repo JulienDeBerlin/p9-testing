@@ -31,12 +31,12 @@ public class CompteComptableTest {
         List<CompteComptable> list3elements = new ArrayList<CompteComptable>(
                 Arrays.asList(compteComptable1, compteComptable2, compteComptable3));
 
-        assertEquals(compteComptable1, CompteComptable.getByNumero(list3elements, account1), "4 elements, standard");
-        assertEquals(compteComptable2, CompteComptable.getByNumero(list3elements, account2), "4 elements, name is null");
+        assertEquals(compteComptable1, CompteComptable.getByNumero(list3elements, account1), "3 elements, standard");
+        assertEquals(compteComptable2, CompteComptable.getByNumero(list3elements, account2), "3 elements, name is null");
 
         //FIXME: ça ne devrait pas être possible de passer null en paramètre
-        assertEquals(null, CompteComptable.getByNumero(list3elements, account3), "4 elements, account is null");
-        assertEquals(null, CompteComptable.getByNumero(list3elements, 5555), "4 elements, account not available");
+        assertEquals(null, CompteComptable.getByNumero(list3elements, account3), "3 elements, account is null");
+        assertEquals(null, CompteComptable.getByNumero(list3elements, 5555), "3 elements, account not available");
 
 
     }

@@ -17,8 +17,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.Types;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+
+import static com.dummy.myerp.technical.staticTools.StaticTools.convertDateToCalendar;
 
 
 /**
@@ -338,7 +339,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("annee", convertDateToCalendar(ecritureComptable.getDate()).get(Calendar.YEAR));
 
         try {
-            SequenceEcritureComptable sequenceEcritureComptable = (SequenceEcritureComptable)jdbcTemplate.queryForObject(sqlQuery, vSqlParams, new BeanPropertyRowMapper(SequenceEcritureComptable.class));
+            SequenceEcritureComptable sequenceEcritureComptable = jdbcTemplate.queryForObject(sqlQuery, vSqlParams, new BeanPropertyRowMapper<>(SequenceEcritureComptable.class));
             return sequenceEcritureComptable;
 
         } catch (EmptyResultDataAccessException vEx) {
@@ -347,15 +348,80 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         }
     }
 
-    /**
-     * Use to convert a Date into a Calendar object
-     * @param date
-     * @return
-     */
-    private Calendar convertDateToCalendar(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-       return calendar;
+
+    @Override
+    public boolean isCodeJournalValid(String codeJournal) {
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+
+        String sqlQuery = "select * from myerp.journal_comptable where code = :code";
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("code", codeJournal);
+
+        try {
+            JournalComptable journalComptable = jdbcTemplate.queryForObject(sqlQuery, vSqlParams, new BeanPropertyRowMapper<>(JournalComptable.class));
+            return true;
+        } catch (EmptyResultDataAccessException vEx) {
+            return false;
+        }
     }
 
+    @Override
+    public void insertSequenceEcritureComptable(int year, String codeJournal) {
+
+        NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+
+        String sql = "INSERT INTO myerp.sequence_ecriture_comptable (journal_code, annee, derniere_valeur) VALUES (:journal_code, :annee, :derniere_valeur)";
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("journal_code", codeJournal);
+        vSqlParams.addValue("annee", year);
+        vSqlParams.addValue("derniere_valeur", 1);
+        vJdbcTemplate.update(sql, vSqlParams);
+    }
+
+    @Override
+    public SequenceEcritureComptable updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) throws NotFoundException {
+
+        NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+
+        String sqlUpdate = "UPDATE myerp.sequence_ecriture_comptable SET derniere_valeur = :derniere_valeur where annee = :annee and journal_code = :journal_code";
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("derniere_valeur", sequenceEcritureComptable.getDerniereValeur() + 1);
+        vSqlParams.addValue("annee", sequenceEcritureComptable.getAnnee());
+        vSqlParams.addValue("journal_code", sequenceEcritureComptable.getJournalCode());
+
+        try {
+            vJdbcTemplate.update(sqlUpdate, vSqlParams);
+            return getSequenceEcritureComptable(sequenceEcritureComptable.getAnnee(), sequenceEcritureComptable.getJournalCode());
+        } catch (NotFoundException e) {
+            throw new NotFoundException("Update impossible : pas de sequence pour la combinaison journal/année");
+        }
+    }
+
+
+    @Override
+    public SequenceEcritureComptable getSequenceEcritureComptable(int year, String codeJournal) throws NotFoundException {
+        NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+
+        String sqlSelect = "SELECT * from myerp.sequence_ecriture_comptable where annee = :annee and journal_code = :journal_code";
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("annee", year);
+        vSqlParams.addValue("journal_code", codeJournal);
+
+        SequenceEcritureComptable sequenceEcritureComptable;
+        try {
+            sequenceEcritureComptable = vJdbcTemplate.queryForObject(sqlSelect, vSqlParams, new BeanPropertyRowMapper<>(SequenceEcritureComptable.class));
+            return sequenceEcritureComptable;
+        } catch (EmptyResultDataAccessException vEx) {
+            throw new NotFoundException("Sequence comptable non existante");
+        }
+    }
+
+
+    @Override
+    public List<SequenceEcritureComptable> getListSequenceEcritureComptable() {
+        JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
+        String sql = "SELECT * FROM myerp.sequence_ecriture_comptable";
+        return vJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(SequenceEcritureComptable.class));
+
+    }
 }
