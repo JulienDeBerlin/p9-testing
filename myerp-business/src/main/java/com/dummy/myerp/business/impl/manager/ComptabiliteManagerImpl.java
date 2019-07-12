@@ -75,7 +75,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 SequenceEcritureComptable sequenceEcritureComptable = getDaoProxy().getComptabiliteDao().getSequenceJournal(pEcritureComptable);
 
                 if (sequenceEcritureComptable.getDerniereValeur() == 99999){
-                    throw new FunctionalException("Nombre maximal d'écritures atteint. Veuillez choisir un nouveau journal");
+                    throw new FunctionalException("Nombre maximal d'écritures atteint. Veuillez choisir un nouveau journal.");
                 } else {
                     referenceEcritureComptable += ( StringUtils.leftPad(String.valueOf(sequenceEcritureComptable.getDerniereValeur() + 1), 5, "0"));
                     getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequenceEcritureComptable);

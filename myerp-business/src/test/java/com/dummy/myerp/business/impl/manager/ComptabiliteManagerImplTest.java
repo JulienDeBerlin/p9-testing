@@ -272,6 +272,12 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
         manager.addReference(ecritureComptable);
         assertEquals("TR-2020/00001", ecritureComptable.getReference());
 
+        // Code journal et année existants en BDD mais lastReference = 99999
+        sequenceEcritureComptable.setDerniereValeur(99999);
+        when(getDaoProxy().getComptabiliteDao().getSequenceJournal(any(EcritureComptable.class))).thenReturn(sequenceEcritureComptable);
+        FunctionalException thrown2 = assertThrows(FunctionalException.class, () -> manager.addReference(ecritureComptable));
+        assertEquals("Nombre maximal d'écritures atteint. Veuillez choisir un nouveau journal.", thrown2.getMessage());
+
         // FIXME : test de l'insert ou update de la table SequenceEcritureComptable fait dans la couche DAO. Ok?
 
     }
