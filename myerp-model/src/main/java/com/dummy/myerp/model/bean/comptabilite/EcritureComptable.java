@@ -25,7 +25,7 @@ public class EcritureComptable {
     @NotNull (message = "Le journal comptable ne doit pas être null.")
     private JournalComptable journal;
     /** The Reference. */
-    @Pattern(message = "Le format de la référence n'est pas correct.", regexp = "\\d{1,5}-\\d{4}/\\d{5}")
+    @Pattern(message = "Le format de la référence n'est pas correct.", regexp = "\\w{2}-\\d{4}/\\d{5}")
     private String reference;
     /** The Date. */
     @NotNull (message = "La date ne doit pas être null.")
