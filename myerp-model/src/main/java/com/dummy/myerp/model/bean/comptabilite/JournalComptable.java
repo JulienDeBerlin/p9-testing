@@ -14,7 +14,7 @@ public class JournalComptable {
     // ==================== Attributs ====================
     /** code */
     @NotNull (message = "Le code ne doit pas être null.")
-    @Size(min = 1, max = 5)
+    @Size(min = 2, max = 2, message = "Le code journal doit être représenté par 2 caractères.")
     private String code;
 
     /** libelle */
