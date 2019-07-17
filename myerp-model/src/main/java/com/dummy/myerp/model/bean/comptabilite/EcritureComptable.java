@@ -109,7 +109,6 @@ public class EcritureComptable {
         return totalCredit.setScale(2,BigDecimal.ROUND_UP);
     }
 
-
     /**
      * Renvoie TRUE si l'écriture est équilibrée (TotalDebit = TotalCrédit)
      * @return boolean

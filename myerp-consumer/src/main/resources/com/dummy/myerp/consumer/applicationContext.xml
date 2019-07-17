@@ -71,15 +71,18 @@
 
     </bean>
 
-    <!-- ========== SQL ========== -->
+    <!-- TODO  Fichier properties-->
+
+
+
+  <!-- ========== SQL ========== -->
     <import resource="sqlContext.xml"/>
 
 
     <!-- ========== Gestion des transactions ========== -->
     <tx:annotation-driven transaction-manager="txManager"/>
 
-    <bean id="txManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref= "dataSourceMYERP" />
     </bean>
     <!-- ==================== -->

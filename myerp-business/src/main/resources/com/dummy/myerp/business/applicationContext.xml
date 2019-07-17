@@ -10,12 +10,14 @@
     <import resource="classpath:com/dummy/myerp/consumer/applicationContext.xml"/>
     <import resource="classpath:com/dummy/myerp/model/applicationContext.xml"/>
 
+    <!-- ========== Transaction Managers ========== -->
+    <import resource="transactionContext.xml"/>
 
 
     <!-- ====================   Business-Proxy   ==================== -->
 
     <!-- BusinessProxy -->
-    <bean id="BusinessProxy"
+    <bean id="businessProxy"
           class="com.dummy.myerp.business.impl.BusinessProxyImpl"
           factory-method="getInstance">
         <constructor-arg ref="DaoProxy"/>
@@ -23,8 +25,7 @@
     </bean>
 
 
-    <!-- ========== Transaction Managers ========== -->
-    <import resource="transactionContext.xml"/>
+
 
 
 

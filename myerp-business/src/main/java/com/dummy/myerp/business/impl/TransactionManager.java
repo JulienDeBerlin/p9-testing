@@ -8,18 +8,21 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 /**
  * <p>Classe de gestion des Transactions de persistance</p>
  */
-public class TransactionManager  {
+public class TransactionManager {
 
     // ==================== Attributs Static ====================
-    /** PlatformTransactionManager pour le DataSource MyERP */
+    /**
+     * PlatformTransactionManager pour le DataSource MyERP
+     */
     private static PlatformTransactionManager ptmMyERP;
 
 
-
-
     // ==================== Constructeurs ====================
-    /** Instance unique de la classe (design pattern Singleton) */
+    /**
+     * Instance unique de la classe (design pattern Singleton)
+     */
     private static final TransactionManager INSTANCE = new TransactionManager();
+
     /**
      * Renvoie l'instance unique de la classe (design pattern Singleton).
      *
@@ -28,6 +31,7 @@ public class TransactionManager  {
     public static TransactionManager getInstance() {
         return TransactionManager.INSTANCE;
     }
+
     /**
      * Renvoie l'instance unique de la classe (design pattern Singleton).
      *
@@ -38,6 +42,7 @@ public class TransactionManager  {
         ptmMyERP = pPtmMyERP;
         return TransactionManager.INSTANCE;
     }
+
     /**
      * Constructeur.
      */
@@ -47,14 +52,15 @@ public class TransactionManager  {
 
 
     // ==================== Méthodes ====================
+
     /**
      * Démarre une transaction sur le DataSource MyERP
      *
      * @return TransactionStatus à passer aux méthodes :
-     *      <ul>
-     *          <li>{@link #commitMyERP(TransactionStatus)}</li>
-     *              <li>{@link #rollbackMyERP(TransactionStatus)}</li>
-     *      </ul>
+     * <ul>
+     * <li>{@link #commitMyERP(TransactionStatus)}</li>
+     * <li>{@link #rollbackMyERP(TransactionStatus)}</li>
+     * </ul>
      */
     public TransactionStatus beginTransactionMyERP() {
         DefaultTransactionDefinition vTDef = new DefaultTransactionDefinition();

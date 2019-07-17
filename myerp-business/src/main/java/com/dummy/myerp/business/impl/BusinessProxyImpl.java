@@ -16,14 +16,12 @@ public class BusinessProxyImpl implements BusinessProxy {
      * Le Proxy d'accès à la couche Consumer-DAO
      */
     private static DaoProxy daoProxy;
-    // FIXME pourquoi static?
 
     // ==================== Attributs ====================
     /**
      * The Comptabilite manager.
      */
     private ComptabiliteManager comptabiliteManager = new ComptabiliteManagerImpl();
-    // FIXME pourquoi on ne confie pas l'instanciation à Spring?
 
 
     // ==================== Constructeurs ====================
