@@ -29,9 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/truncateDB.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
 
-public class ComptabiliteDaoImplTest
-// FIXME a-t-on besoin de:        extends AbstractDbConsumer
-{
+public class ComptabiliteDaoImplTest {
 
     private static ComptabiliteDaoImpl comptabiliteDaoImpl;
 
@@ -92,7 +90,7 @@ public class ComptabiliteDaoImplTest
     @DisplayName("getEcritureComptable / Id non valid")
     public void getEcritureComptable2() throws NotFoundException {
 
-        //TODO: étudier les expressions lambdas
+        //TODO: étudier les expressions lambdas. L'IDÉE DE BASE : PROG.FONCTIONNELLE
         int id = -49;
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(id), "id non existant");
         assertEquals("EcritureComptable non trouvée : id=" + id, thrown.getMessage());
