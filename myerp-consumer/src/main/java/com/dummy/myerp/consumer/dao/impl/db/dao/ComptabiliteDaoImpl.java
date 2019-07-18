@@ -106,6 +106,15 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     }
 
 
+
+    @Override
+    public List<LigneEcritureComptable> getListLignesEcritureComptable(int ecriture_id) {
+        JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
+        String SqlQuery = "  SELECT * FROM myerp.ligne_ecriture_comptable WHERE ligne_ecriture_comptable.ecriture_id =" + ecriture_id;
+        List<LigneEcritureComptable> vList = vJdbcTemplate.query(SqlQuery, new BeanPropertyRowMapper(LigneEcritureComptable.class));
+        return vList;
+    }
+
     /**
      * SQLgetEcritureComptable
      */

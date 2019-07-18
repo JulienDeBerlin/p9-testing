@@ -94,6 +94,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public void checkEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
+
         checkEcritureComptableUnit_Contraintes(pEcritureComptable);
         checkEcritureComptableUnit_RG2(pEcritureComptable);
         checkEcritureComptableUnit_RG3(pEcritureComptable);

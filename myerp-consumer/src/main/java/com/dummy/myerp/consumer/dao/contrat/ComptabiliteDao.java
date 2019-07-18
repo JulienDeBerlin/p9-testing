@@ -1,9 +1,6 @@
 package com.dummy.myerp.consumer.dao.contrat;
 
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 import java.util.List;
@@ -40,6 +37,14 @@ public interface ComptabiliteDao {
     List<EcritureComptable> getListEcritureComptable();
 
     /**
+     * Renvoie la liste des lignes d'écriture comptable correspondant à l'id d'une écriture donnée
+     *
+     * @param ecriture_id l'id de l'écriture dont on veut récupérer les lignes d'écriture
+     * @return
+     */
+    List<LigneEcritureComptable> getListLignesEcritureComptable(int ecriture_id);
+
+    /**
      * Renvoie l'Écriture Comptable d'id {@code pId}.
      *
      * @param pId l'id de l'écriture comptable
@@ -56,6 +61,7 @@ public interface ComptabiliteDao {
      * @throws NotFoundException : Si l'écriture comptable n'est pas trouvée
      */
     EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException;
+
 
     /**
      * Charge la liste des lignes d'écriture de l'écriture comptable {@code pEcritureComptable}

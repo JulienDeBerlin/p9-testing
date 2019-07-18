@@ -1,5 +1,6 @@
 package com.dummy.myerp.consumer.dao.impl.db.dao;
 
+import com.dummy.myerp.consumer.db.AbstractDbConsumer;
 import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.*;
@@ -29,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/truncateDB.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
 
-public class ComptabiliteDaoImplTest {
+public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
     private static ComptabiliteDaoImpl comptabiliteDaoImpl;
 
@@ -67,6 +68,13 @@ public class ComptabiliteDaoImplTest {
     }
 
     @Test
+    @Order(3)
+    public void getListLignesEcritureComptable(){
+        List<LigneEcritureComptable> ligneEcritureComptableList = comptabiliteDaoImpl.getListLignesEcritureComptable(-1);
+        assertEquals(3, ligneEcritureComptableList.size());
+    }
+
+    @Test
     @Order(4)
     @DisplayName("getEcritureComptable / Id valid")
     public void getEcritureComptable1() throws NotFoundException {
@@ -82,7 +90,6 @@ public class ComptabiliteDaoImplTest {
         assertEquals(0, ecritureComptable.getDate().compareTo(date), "date matches");
         assertEquals("TMA Appli Yyy", ecritureComptable.getLibelle(), "libellé matches");
         assertEquals(3, ecritureComptable.getListLigneEcriture().size(), "size lignes ecriture matches");
-        // TODO: éventuellement vérifier que les lignes d'écriture sont celles attendues
     }
 
     @Test
@@ -90,7 +97,6 @@ public class ComptabiliteDaoImplTest {
     @DisplayName("getEcritureComptable / Id non valid")
     public void getEcritureComptable2() throws NotFoundException {
 
-        //TODO: étudier les expressions lambdas. L'IDÉE DE BASE : PROG.FONCTIONNELLE
         int id = -49;
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(id), "id non existant");
         assertEquals("EcritureComptable non trouvée : id=" + id, thrown.getMessage());
@@ -117,7 +123,6 @@ public class ComptabiliteDaoImplTest {
     @DisplayName("getEcritureComptableByRef / ref non valid")
     public void getEcritureComptableByRef2() throws NotFoundException {
 
-        //TODO: étudier les expressions lambdas
         String ref = "AA";
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptableByRef(ref), "référence non existante");
         assertEquals("EcritureComptable non trouvée : reference=" + ref, thrown.getMessage());
@@ -132,8 +137,6 @@ public class ComptabiliteDaoImplTest {
         EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
 
         ecritureComptableToBeInserted.setJournal(new JournalComptable("BQ", "Journal de Banque"));
-
-        // FIXME: est-ce que la deuxième partie de la ref correspond à l'id ? incrémentation automatique?
         ecritureComptableToBeInserted.setReference("BQ-2016/23663");
 
         LocalDate localDate = LocalDate.of(2019, 01, 28);
@@ -157,10 +160,6 @@ public class ComptabiliteDaoImplTest {
         assertEquals(date, ecritureComptableInserted.getDate());
         assertEquals("Subvention Fondation LVMH", ecritureComptableInserted.getLibelle());
         assertEquals(3, ecritureComptableInserted.getListLigneEcriture().size());
-
-        // FIXME : tester que l'ID généré est bien le bon
-        // FIXME: dans la couche DAO, pas de vérification que l'écriture soit bien équilibrée! A quel moment ce fait ce contrôle?
-        // FIXME: que ce passe-t-il si on laisse des champs vides (qui ne sont pas censés l'être)
     }
 
     @Test
@@ -171,8 +170,6 @@ public class ComptabiliteDaoImplTest {
         EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
 
         ecritureComptableToBeInserted.setJournal(new JournalComptable("BQ", "Journal de Banque"));
-
-        // FIXME: est-ce que la deuxième partie de la ref correspond à l'id ? incrémentation automatique?
         ecritureComptableToBeInserted.setReference("BQ-2016/23663");
 
         ecritureComptableToBeInserted.setLibelle("Subvention Fondation LVMH");
@@ -184,11 +181,10 @@ public class ComptabiliteDaoImplTest {
         List<EcritureComptable> ecritureComptableListBeforeInsertion = comptabiliteDaoImpl.getListEcritureComptable();
 
         DataIntegrityViolationException thrown = assertThrows(DataIntegrityViolationException.class, () -> comptabiliteDaoImpl.insertEcritureComptable(ecritureComptableToBeInserted));
-        // FIXME: est-ce qu'il ne faudra pas catcher ces exceptions dans le code?
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     @DisplayName("updateEcritureComptable / Id existant / update libellé")
     public void updateEcritureComptable1() throws NotFoundException {
 
@@ -202,12 +198,15 @@ public class ComptabiliteDaoImplTest {
         ecritureComptableToBeUpdated.setLibelle("Subvention conseil régional");
         comptabiliteDaoImpl.updateEcritureComptable(ecritureComptableToBeUpdated);
 
+        // Récupère la version updatée de la BDD
+        EcritureComptable ecritureComptableAfterUpdate = comptabiliteDaoImpl.getEcritureComptable(ecritureComptableToBeUpdated.getId());
+
         // Test le libellé après update
-        assertEquals("Subvention conseil régional", ecritureComptableToBeUpdated.getLibelle());
+        assertEquals("Subvention conseil régional", ecritureComptableAfterUpdate.getLibelle());
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     @DisplayName("updateEcritureComptable / Id existant / update lignes d'écriture")
     public void updateEcritureComptable2() throws NotFoundException {
 
@@ -225,24 +224,27 @@ public class ComptabiliteDaoImplTest {
         // Update
         comptabiliteDaoImpl.updateEcritureComptable(ecritureComptableToBeUpdated);
 
+        // Récupère la version updatée de la BDD
+        EcritureComptable ecritureComptableAfterUpdate = comptabiliteDaoImpl.getEcritureComptable(ecritureComptableToBeUpdated.getId());
+
         // Test lignes d'écriture après update
-        assertEquals(2, ecritureComptableToBeUpdated.getListLigneEcriture().size());
+        assertEquals(2, ecritureComptableAfterUpdate.getListLigneEcriture().size());
         BigDecimal bigDecimalTest = BigDecimal.valueOf(0);
-        for (LigneEcritureComptable l : ecritureComptableToBeUpdated.getListLigneEcriture()) {
+        for (LigneEcritureComptable l : ecritureComptableAfterUpdate.getListLigneEcriture()) {
             bigDecimalTest = (l.getCredit() == null) ? bigDecimalTest.add(l.getDebit()) : bigDecimalTest.add(l.getCredit());
         }
         assertEquals(bigDecimalTest, BigDecimal.valueOf(-68.46));
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     @DisplayName("updateEcritureComptable / Id non existant")
     public void updateEcritureComptable3() throws NotFoundException {
 
         //Récuépère une écriture comptable de la BDD
         EcritureComptable ecritureComptable = comptabiliteDaoImpl.getEcritureComptable(-1);
 
-        //Change l'id
+        //Change l'id en un id inexistant, de sorte que un update soit impossible
         ecritureComptable.setId(1000);
 
         //Test si on essaie de faire un update sur un id non existant
@@ -250,8 +252,9 @@ public class ComptabiliteDaoImplTest {
         assertEquals("La BDD ne contient pas d'écriture comptable avec l'id=" + ecritureComptable.getId(), thrown.getMessage());
     }
 
+
     @Test
-    @Order(13)
+    @Order(12)
     @DisplayName("deleteEcritureComptable / Id existant")
     public void deleteEcritureComptable1() {
 
@@ -265,13 +268,14 @@ public class ComptabiliteDaoImplTest {
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(-1), "id non existant");
         assertEquals("EcritureComptable non trouvée : id=-1", thrown.getMessage());
 
-        // teste que les lignes d'écriture comptable associée ont aussi été supprimées
-        /* FIXME: pour effectuer ce test, il faudrait p.e. pouvoir vérifier que le nombre de lignes d'écriture a été réduit.
-            Or on ne dispose pas de méthode pour cela. Est-ce ok si je crée une nlle méthode avec requête SQL? */
+        // teste que les lignes d'écriture comptables associées ont aussi été supprimées
+        List <LigneEcritureComptable> ligneEcritureComptableList = comptabiliteDaoImpl.getListLignesEcritureComptable(-1);
+        assertEquals(0, ligneEcritureComptableList.size());
     }
 
+
     @Test
-    @Order(14)
+    @Order(13)
     @DisplayName("deleteEcritureComptable / Id non existant")
     public void deleteEcritureComptable2() {
 
@@ -283,8 +287,9 @@ public class ComptabiliteDaoImplTest {
     }
 
 
+
     @Test
-    @Order(15)
+    @Order(14)
     void getSequenceJournal() throws NotFoundException {
 
         EcritureComptable ecritureComptable = new EcritureComptable();
@@ -325,6 +330,7 @@ public class ComptabiliteDaoImplTest {
     }
 
     @Test
+    @Order(15)
     public void getListSequenceEcritureComptable() {
         List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         assertEquals(4, list.size());
@@ -332,6 +338,7 @@ public class ComptabiliteDaoImplTest {
 
 
     @Test
+    @Order(16)
     public void insertSequenceEcritureComptable() {
         comptabiliteDaoImpl.insertSequenceEcritureComptable(2017, "BQ");
         List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
@@ -340,6 +347,7 @@ public class ComptabiliteDaoImplTest {
     }
 
     @Test
+    @Order(17)
     public void updateSequenceEcritureComptable() throws NotFoundException {
         List<SequenceEcritureComptable> listBeforeUpdate = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         SequenceEcritureComptable sequenceBeforeUpdate = listBeforeUpdate.get(0);
@@ -354,4 +362,9 @@ public class ComptabiliteDaoImplTest {
         assertEquals("AC", sequenceAfterUpdate.getJournalCode());
         assertEquals(41, sequenceAfterUpdate.getDerniereValeur());
     }
+
+
+
+
 }
+

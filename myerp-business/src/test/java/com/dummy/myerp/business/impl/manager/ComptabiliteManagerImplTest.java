@@ -25,25 +25,22 @@ import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:transactionContextTest.xml")
 public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
+
     private static ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
 
     private static DaoProxy daoProxyMock = mock(DaoProxy.class, Mockito.RETURNS_DEEP_STUBS);
-
     private static TransactionManager transactionManager = TransactionManager.getInstance();
 
 
     @BeforeAll
     private static void setUp() {
-//        ApplicationContext context = new ClassPathXmlApplicationContext("transactionContextTest.xml");
-//        TransactionManager transactionManager = (TransactionManager) context.getBean("transactionManager");
-
-
         AbstractBusinessManager.configure(null, daoProxyMock, transactionManager);
     }
 
@@ -438,28 +435,30 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
         // Initial setting EcritureComptable
         EcritureComptable ecritureComptable = new EcritureComptable();
-        ecritureComptable.setJournal(new JournalComptable("TR", "Achat"));
-        LocalDate localDate = LocalDate.of(2020, 12, 28);
+        ecritureComptable.setJournal(new JournalComptable("BQ", "Banque"));
+        LocalDate localDate = LocalDate.of(2016, 02, 25);
         Date date = valueOf(localDate);
         ecritureComptable.setDate(date);
         ecritureComptable.setLibelle("Libelle");
         ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401), null, new BigDecimal(123), null));
-        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2), null, null, new BigDecimal(123)));
-        when(getDaoProxy().getComptabiliteDao().getEcritureComptableByRef(Mockito.anyString())).thenThrow(new NotFoundException());
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606), null, null, new BigDecimal(123)));
 
         // Référence null
         FunctionalException thrown1 = assertThrows(FunctionalException.class, () -> manager.insertEcritureComptable(ecritureComptable));
         assertEquals("La référence ne peut pas être null.", thrown1.getMessage());
 
+
         // Ecriture non-équilibrée
+        ecritureComptable.setReference("BQ-2016/00052");
         ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(3), null, null, new BigDecimal(12300)));
         FunctionalException thrown3 = assertThrows(FunctionalException.class, () -> manager.insertEcritureComptable(ecritureComptable));
         assertEquals("L'écriture comptable n'est pas équilibrée.", thrown3.getMessage());
 
+
         // Date null
         ecritureComptable.getListLigneEcriture().clear();
         ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401), null, new BigDecimal(123), null));
-        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2), null, null, new BigDecimal(123)));
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(606), null, null, new BigDecimal(123)));
         ecritureComptable.setDate(null);
         FunctionalException thrown2 = assertThrows(FunctionalException.class, () -> manager.insertEcritureComptable(ecritureComptable));
         assertEquals("L'écriture comptable ne respecte pas les contraintes de validation. La date ne doit pas être null.", thrown2.getMessage());
