@@ -282,7 +282,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getDaoProxy().getComptabiliteDao().insertEcritureComptable(pEcritureComptable);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
-        } finally {
+        } catch (Exception e){
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
@@ -297,7 +297,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
-        } finally {
+        } catch (Exception e) {
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
@@ -312,7 +312,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getDaoProxy().getComptabiliteDao().deleteEcritureComptable(pId);
             getTransactionManager().commitMyERP(vTS);
             vTS = null;
-        } finally {
+        } catch (Exception e) {
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
