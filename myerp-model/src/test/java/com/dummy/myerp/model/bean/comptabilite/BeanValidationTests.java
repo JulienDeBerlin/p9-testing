@@ -34,14 +34,14 @@ public class BeanValidationTests {
     @Test
     public void JournalComptableConstraintsTest(){
 
-        JournalComptable journalComptable = new JournalComptable("2", "journal de banque");
+        JournalComptable journalComptable = new JournalComptable("BQ", "journal de banque");
         Set<ConstraintViolation<JournalComptable>> constraintViolations = validator.validate(journalComptable);
         assertEquals(  0, constraintViolations.size() , "toutes contraintes respectées");
 
-        journalComptable = new JournalComptable("200987", "journal de banque");
+        journalComptable = new JournalComptable("YTU", "journal de banque");
         constraintViolations = validator.validate(journalComptable);
         assertEquals(  1, constraintViolations.size() , "code journal > 5 chiffres");
-        assertEquals( "la taille doit être entre 1 et 5",  constraintViolations.iterator().next().getMessage(), "code journal > 5 chiffres");
+        assertEquals( "Le code journal doit être représenté par 2 caractères.",  constraintViolations.iterator().next().getMessage(), "code journal > 5 chiffres");
 
     }
 
@@ -68,7 +68,7 @@ public class BeanValidationTests {
 
         ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("250"), null );
         constraintViolations = validator.validate(ligneEcritureComptable);
-        assertEquals( 1, constraintViolations.size(), "nombre saisi sans décimaux" );
+        assertEquals( 0, constraintViolations.size(), "nombre saisi sans décimaux" );
 
 
     }
