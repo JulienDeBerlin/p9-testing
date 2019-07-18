@@ -54,7 +54,7 @@
         </dependency>
 
         <!-- ===== Spring JDBC/Tx ===== -->
-         <!--spring-tx : transaction, JCA, DAO-->
+        <!--spring-tx : transaction, JCA, DAO-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -141,5 +141,19 @@
     <!-- Build -->
     <!-- =============================================================== -->
     <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <configuration>
+                    <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+
     </build>
 </project>
