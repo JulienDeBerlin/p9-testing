@@ -143,7 +143,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @param pEcritureComptable -
      * @throws FunctionalException
      */
-    // TODO à tester
     protected void checkEcritureComptableUnit_RG3(EcritureComptable pEcritureComptable) throws FunctionalException {
         int vNbrCredit = 0;
         int vNbrDebit = 0;

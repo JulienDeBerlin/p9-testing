@@ -11,10 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EcritureComptableTest {
 
-    /*FIXME
-        n'est-ce pas problématique de créer ainsi une nouvelle méthode au sein d'une classe de test? Quid de la séparation code et test?
-        déplacer cette méthode dans la classe LigneEcritureComptable?
-     */
 
 //    private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
 //        BigDecimal vDebit = pDebit == null ? null : new BigDecimal(pDebit);
@@ -34,7 +30,7 @@ public class EcritureComptableTest {
     LigneEcritureComptable debit_negatif_34_20 = new LigneEcritureComptable(new CompteComptable(), "libellé", new BigDecimal("-34.20"), null);
 
 
-    LigneEcritureComptable credit_positif_450 = new LigneEcritureComptable(new CompteComptable(), "libellé",null,  new BigDecimal("450.00"));
+    LigneEcritureComptable credit_positif_450 = new LigneEcritureComptable(new CompteComptable(), "libellé",null,  new BigDecimal("450"));
     LigneEcritureComptable credit_positif_100 = new LigneEcritureComptable(new CompteComptable(), "libellé",null,  new BigDecimal("100.00"));
     LigneEcritureComptable credit_positif_350 = new LigneEcritureComptable(new CompteComptable(), "libellé",null,  new BigDecimal("350.00"));
     LigneEcritureComptable credit_negatif_34_20 = new LigneEcritureComptable(new CompteComptable(), "libellé", null, new BigDecimal("-34.20"));
@@ -131,6 +127,13 @@ public class EcritureComptableTest {
         ecritureComptable.getListLigneEcriture().add(credit_positif_350);
         ecritureComptable.getListLigneEcriture().add(debit_negatif_34_20);
         assertFalse(ecritureComptable.isEquilibree(), "Non Equilibrée");
+
+        // avec et sans décimaux
+        ecritureComptable.getListLigneEcriture().clear();
+        ecritureComptable.getListLigneEcriture().add(credit_positif_450);
+        ecritureComptable.getListLigneEcriture().add(debit_positif_400_50);
+        ecritureComptable.getListLigneEcriture().add(debit_positif_49_50);
+        assertTrue(ecritureComptable.isEquilibree(), "Equilibrée");
     }
 
 

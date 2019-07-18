@@ -20,12 +20,18 @@
     </bean>
 
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>com/dummy/myerp/consumer/database.properties</value>
+        </property>
+    </bean>
+
     <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <constructor-arg value="javax.sql.DataSource"/>
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:9032/db_myerp" />
-        <property name="username" value="usr_myerp"/>
-        <property name="password" value="myerp"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
 

@@ -353,7 +353,6 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         } catch (EmptyResultDataAccessException vEx) {
             throw new NotFoundException("SequenceEcritureComptable pour ce journal et cette année inexistante");
-            //  FIXME : ajouter un traitement ? Genre créer une séquence avec 1 ?
         }
     }
 

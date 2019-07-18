@@ -383,9 +383,6 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
         when(getDaoProxy().getComptabiliteDao().getSequenceJournal(any(EcritureComptable.class))).thenReturn(sequenceEcritureComptable);
         FunctionalException thrown2 = assertThrows(FunctionalException.class, () -> manager.addReference(ecritureComptable));
         assertEquals("Nombre maximal d'écritures atteint. Veuillez choisir un nouveau journal.", thrown2.getMessage());
-
-        // FIXME : test de l'insert ou update de la table SequenceEcritureComptable fait dans la couche DAO. Ok?
-
     }
 
     @Test
