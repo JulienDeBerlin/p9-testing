@@ -4,7 +4,7 @@ jdk: openjdk8
 
 cache:
 directories:
-  - $HOME/.m2
+  - $HOME//Users/admin/Documents/PROGRAMMING/RESSOURCE/MAVEN
 
 install: true
 script:

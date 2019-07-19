@@ -50,7 +50,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Order(1)
     public void getListCompteComptable() {
         List<CompteComptable> list = comptabiliteDaoImpl.getListCompteComptable();
-        assertEquals(8, list.size());
+        assertEquals(7, list.size());
     }
 
     @Test
