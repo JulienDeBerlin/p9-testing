@@ -7,6 +7,15 @@ directories:
   - $HOME//Users/admin/Documents/PROGRAMMING/RESSOURCE/MAVEN
 
 install: true
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database db_myerp;' -U postgres
+  - psql -c db_myerp < createDatabase.sql
+
+
 script:
   - mvn clean install
 
