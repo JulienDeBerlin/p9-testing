@@ -52,9 +52,8 @@
 
         <!-- ===== Version properties ===== -->
         <log4j.version>2.8.1</log4j.version>
-        <spring.version>4.3.7.RELEASE</spring.version>
+        <spring.version>5.1.7.RELEASE</spring.version>
     </properties>
-
 
     <!-- =============================================================== -->
     <!-- Modules -->
@@ -65,7 +64,6 @@
         <module>myerp-consumer</module>
         <module>myerp-business</module>
     </modules>
-
 
     <!-- =============================================================== -->
     <!-- Profiles -->
@@ -252,9 +250,9 @@
             <!-- ===== unit tests===== -->
 
             <dependency>
-                <groupId>com.github.sbrannen</groupId>
-                <artifactId>spring-test-junit5</artifactId>
-                <version>1.5.0</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
 
@@ -265,6 +263,12 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -290,7 +294,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -347,16 +351,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M3</version>
-
-                    <!--<configuration>-->
-                        <!--<includes>*</includes>-->
-                        <!--<properties>-->
-                            <!--<configurationParameters>-->
-                                <!--junit.jupiter.extensions.autodetection.enabled = true-->
-                            <!--</configurationParameters>-->
-                        <!--</properties>-->
-
-                    <!--</configuration>-->
                 </plugin>
 
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
@@ -431,7 +425,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
                 <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                 </configuration>
