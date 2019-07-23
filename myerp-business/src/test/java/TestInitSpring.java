@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Classe de test de l'initialisation du contexte Spring
  */
-public class TestInitSpring extends BusinessTestCase {
+public class TestInitSpring extends TestBusinessAbstract {
 
     /**
      * Constructeur.

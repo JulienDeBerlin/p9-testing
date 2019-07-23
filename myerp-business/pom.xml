@@ -101,7 +101,7 @@
     <profiles>
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
         <profile>
-            <id>test-business</id>
+            <id>integration-test-business</id>
             <build>
                 <plugins>
                     <!-- Ajout du répertoire src/test-business/java en tant que source de test du module -->
@@ -117,8 +117,23 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/test-business/java</source>
+                                        <source>src/integration-test-business/java</source>
                                     </sources>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>add-integration-test-resource</id>
+                                <phase>generate-test-resources</phase>
+                                <goals>
+                                    <goal>add-test-resource</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/integration-test-business/resources</directory>
+                                        </resource>
+                                    </resources>
                                 </configuration>
                             </execution>
                         </executions>
@@ -129,7 +144,7 @@
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
-                        <directory>src/test-business/resources</directory>
+                        <directory>src/integration-test-business/resources</directory>
                     </testResource>
                 </testResources>
             </build>
@@ -164,7 +179,6 @@
             </plugin>
 
         </plugins>
-
 
     </build>
 </project>

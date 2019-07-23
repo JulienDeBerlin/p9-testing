@@ -8,11 +8,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CompteComptableTest {
+public class TestCompteComptable {
 
 
     @Test
-    public void getByNumeroTest() {
+    public void testGetByNumero() {
 
         Integer numero1 = 1232;
         Integer numero2 = 92837;

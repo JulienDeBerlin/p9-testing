@@ -86,12 +86,12 @@
 
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
         <profile>
-            <id>test-business</id>
+            <id>integration-test-business</id>
         </profile>
 
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->
         <profile>
-            <id>test-consumer</id>
+            <id>integration-test-consumer</id>
         </profile>
 
     </profiles>
@@ -249,7 +249,7 @@
                 <scope>runtime</scope>
             </dependency>
 
-            <!-- ===== Test unitaires ===== -->
+            <!-- ===== unit tests===== -->
 
             <dependency>
                 <groupId>com.github.sbrannen</groupId>
@@ -346,7 +346,15 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.20</version>
+                    <version>3.0.0-M3</version>
+                    <configuration>
+                        <includes>*</includes>
+                        <properties>
+                            <configurationParameters>
+                                junit.jupiter.extensions.autodetection.enabled = true
+                            </configurationParameters>
+                        </properties>
+                    </configuration>
                 </plugin>
 
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
@@ -446,7 +454,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.20</version>
+                <version>3.0.0-M3</version>
                 <configuration>
                     <linkXRef>false</linkXRef>
                 </configuration>

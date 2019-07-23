@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
 
 
-public class ComptabiliteManagerImplTestIntegration {
+public class ITComptabiliteManagerImpl {
 
     private static BusinessProxy businessProxy;
 

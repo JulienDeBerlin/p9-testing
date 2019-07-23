@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:transactionContextTest.xml")
-public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
+public class TestComptabiliteManagerImpl extends AbstractBusinessManager {
 
 
     private static ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
@@ -40,14 +40,14 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
 
     @BeforeAll
-    private static void setUp() {
+    public static void setUp() {
         AbstractBusinessManager.configure(null, daoProxyMock, transactionManager);
     }
 
     //----------------------------------TESTS CHECKS ECRITURE COMPTABLES--------------------------------------------//
 
     @Test
-    void checkEcritureComptableUnit_Contraintes() throws FunctionalException {
+    void testCheckEcritureComptableUnit_Contraintes() throws FunctionalException {
         EcritureComptable ecritureComptable = new EcritureComptable();
 
         // Toutes contraintes validées
@@ -107,7 +107,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
 
     @Test
-    void checkEcritureComptableUnit_RG2() throws FunctionalException {
+    void testCheckEcritureComptableUnit_RG2() throws FunctionalException {
         EcritureComptable ecritureComptable = new EcritureComptable();
 
         ecritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -166,7 +166,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    void checkEcritureComptableUnit_RG3() {
+    void testCheckEcritureComptableUnit_RG3() {
 
         // 0 ligne d'écriture au crédit
         EcritureComptable ecritureComptable = new EcritureComptable();
@@ -209,7 +209,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    void checkEcritureComptable_CompteComptable_Unique() {
+    void testCheckEcritureComptable_CompteComptable_Unique() {
         EcritureComptable ecritureComptable = new EcritureComptable();
 
         ecritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -231,7 +231,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
 
     @Test
-    void checkEcritureComptableUnit_Debit_or_Credit() {
+    void testCheckEcritureComptableUnit_Debit_or_Credit() {
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         LocalDate localDate = LocalDate.of(2020, 12, 28);
@@ -253,7 +253,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    void checkEcritureComptableUnit_RG5() throws FunctionalException {
+    void testCheckEcritureComptableUnit_RG5() throws FunctionalException {
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         LocalDate localDate = LocalDate.of(2020, 12, 28);
@@ -297,7 +297,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    void checkEcritureComptable_RG6() throws NotFoundException, FunctionalException {
+    void testCheckEcritureComptable_RG6() throws NotFoundException, FunctionalException {
 
         // Nouvelle écriture pas encore persistée et donc sans ID
         EcritureComptable ecritureNonPersistee = new EcritureComptable();
@@ -336,7 +336,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
     @Test
     @DisplayName("addReference / tests if reference is added")
-    public void addReference() throws FunctionalException, NotFoundException {
+    public void testAddReference() throws FunctionalException, NotFoundException {
 
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setJournal(new JournalComptable("TR", "Achat"));
@@ -386,7 +386,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    public void getListEcritureComptable() {
+    public void testGetListEcritureComptable() {
         List<EcritureComptable> ecritureComptableListMock =
                 new ArrayList<>(Arrays.asList(new EcritureComptable(),
                         new EcritureComptable(),
@@ -400,7 +400,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    public void getListCompteComptable() {
+    public void testGetListCompteComptable() {
         List<CompteComptable> compteComptableListMock =
                 new ArrayList<>(Arrays.asList(new CompteComptable(12, "libellé"),
                         new CompteComptable(13, "libellé"),
@@ -414,7 +414,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
     }
 
     @Test
-    public void getListJournalComptable() {
+    public void testGetListJournalComptable() {
         List<JournalComptable> journalComptableListMock =
                 new ArrayList<>(Arrays.asList(new JournalComptable("AB", "journal de banque"),
                         new JournalComptable("JU", "journal fournisseurs")));
@@ -428,7 +428,7 @@ public class ComptabiliteManagerImplTest extends AbstractBusinessManager {
 
     @Test
     @DisplayName("Insert denied")
-    void insertEcritureComptableException() throws FunctionalException, NotFoundException {
+    void testInsertEcritureComptableException() throws FunctionalException, NotFoundException {
 
         // Initial setting EcritureComptable
         EcritureComptable ecritureComptable = new EcritureComptable();

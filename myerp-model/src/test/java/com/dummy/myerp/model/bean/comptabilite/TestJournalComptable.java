@@ -9,10 +9,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class JournalComptableTest {
+public class TestJournalComptable {
 
     @Test
-    public void getByCode() {
+    public void testGetByCode() {
 
         JournalComptable journalComptable1 = new JournalComptable("BQ", "journal de banque");
         JournalComptable journalComptable2 = new JournalComptable("CR", "journal des créditeur");

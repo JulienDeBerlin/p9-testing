@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/truncateDB.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
 
-public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
+public class TestComptabiliteDaoImpl extends AbstractDbConsumer {
 
     private static ComptabiliteDaoImpl comptabiliteDaoImpl;
 
@@ -41,35 +41,34 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     private static LigneEcritureComptable credit_negatif_34_20 = new LigneEcritureComptable(new CompteComptable(706), "libellé", null, new BigDecimal("-34.23"));
 
     @BeforeAll
-    public static void setupBeforeAll() {
+    public static void testSetupBeforeAll() {
         comptabiliteDaoImpl = ComptabiliteDaoImpl.getInstance();
-        ComptabiliteDaoImplTest instance = new ComptabiliteDaoImplTest();
     }
 
     @Test
     @Order(1)
-    public void getListCompteComptable() {
+    public void testGetListCompteComptable() {
         List<CompteComptable> list = comptabiliteDaoImpl.getListCompteComptable();
         assertEquals(7, list.size());
     }
 
     @Test
     @Order(2)
-    public void getListEcritureComptable() {
+    public void testGetListEcritureComptable() {
         List<EcritureComptable> list = comptabiliteDaoImpl.getListEcritureComptable();
         assertEquals(5, list.size());
     }
 
     @Test
     @Order(3)
-    public void getListJournalComptable() {
+    public void testGetListJournalComptable() {
         List<JournalComptable> journalComptableList = comptabiliteDaoImpl.getListJournalComptable();
         assertEquals(4, journalComptableList.size());
     }
 
     @Test
     @Order(3)
-    public void getListLignesEcritureComptable(){
+    public void testGetListLignesEcritureComptable(){
         List<LigneEcritureComptable> ligneEcritureComptableList = comptabiliteDaoImpl.getListLignesEcritureComptable(-1);
         assertEquals(3, ligneEcritureComptableList.size());
     }
@@ -77,7 +76,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(4)
     @DisplayName("getEcritureComptable / Id valid")
-    public void getEcritureComptable1() throws NotFoundException {
+    public void testGetEcritureComptable1() throws NotFoundException {
 
         EcritureComptable ecritureComptable = comptabiliteDaoImpl.getEcritureComptable(-4);
 
@@ -95,7 +94,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(5)
     @DisplayName("getEcritureComptable / Id non valid")
-    public void getEcritureComptable2() throws NotFoundException {
+    public void testGetEcritureComptable2() throws NotFoundException {
 
         int id = -49;
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptable(id), "id non existant");
@@ -105,7 +104,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(6)
     @DisplayName("getEcritureComptableByRef / ref valid")
-    public void getEcritureComptableByRef1() throws NotFoundException {
+    public void testGetEcritureComptableByRef1() throws NotFoundException {
         EcritureComptable ecritureComptable = comptabiliteDaoImpl.getEcritureComptableByRef("VE-2016/00004");
 
         assertEquals(-4, ecritureComptable.getId(), "id matches");
@@ -121,7 +120,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(7)
     @DisplayName("getEcritureComptableByRef / ref non valid")
-    public void getEcritureComptableByRef2() throws NotFoundException {
+    public void testGetEcritureComptableByRef2() throws NotFoundException {
 
         String ref = "AA";
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> comptabiliteDaoImpl.getEcritureComptableByRef(ref), "référence non existante");
@@ -132,7 +131,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(8)
     @DisplayName("insertEcritureComptable / standard")
-    public void insertEcritureComptable1() throws NotFoundException {
+    public void testInsertEcritureComptable1() throws NotFoundException {
 
         EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
 
@@ -165,7 +164,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(8)
     @DisplayName("insertEcritureComptable / (@notnull) date field is null")
-    public void insertEcritureComptable2() throws NotFoundException {
+    public void testInsertEcritureComptable2() throws NotFoundException {
 
         EcritureComptable ecritureComptableToBeInserted = new EcritureComptable();
 
@@ -186,7 +185,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(9)
     @DisplayName("updateEcritureComptable / Id existant / update libellé")
-    public void updateEcritureComptable1() throws NotFoundException {
+    public void testUpdateEcritureComptable1() throws NotFoundException {
 
         //Récuépère une écriture comptable de la BDD
         EcritureComptable ecritureComptableToBeUpdated = comptabiliteDaoImpl.getEcritureComptable(-1);
@@ -208,7 +207,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(10)
     @DisplayName("updateEcritureComptable / Id existant / update lignes d'écriture")
-    public void updateEcritureComptable2() throws NotFoundException {
+    public void testUpdateEcritureComptable2() throws NotFoundException {
 
         //Récuépère une écriture comptable de la BDD
         EcritureComptable ecritureComptableToBeUpdated = comptabiliteDaoImpl.getEcritureComptable(-1);
@@ -239,7 +238,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(11)
     @DisplayName("updateEcritureComptable / Id non existant")
-    public void updateEcritureComptable3() throws NotFoundException {
+    public void testUpdateEcritureComptable3() throws NotFoundException {
 
         //Récuépère une écriture comptable de la BDD
         EcritureComptable ecritureComptable = comptabiliteDaoImpl.getEcritureComptable(-1);
@@ -256,7 +255,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(12)
     @DisplayName("deleteEcritureComptable / Id existant")
-    public void deleteEcritureComptable1() {
+    public void testDeleteEcritureComptable1() {
 
         // teste que la liste des écritures comptable est réduite d'une entité
         int nbEcritureComptableBeforeDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
@@ -277,7 +276,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     @Test
     @Order(13)
     @DisplayName("deleteEcritureComptable / Id non existant")
-    public void deleteEcritureComptable2() {
+    public void testDeleteEcritureComptable2() {
 
         // teste que la liste des écritures comptable reste inchangée
         int nbEcritureComptableBeforeDelete = comptabiliteDaoImpl.getListEcritureComptable().size();
@@ -290,7 +289,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
     @Test
     @Order(14)
-    void getSequenceJournal() throws NotFoundException {
+    void testGetSequenceJournal() throws NotFoundException {
 
         EcritureComptable ecritureComptable = new EcritureComptable();
         ecritureComptable.setLibelle("Libellé");
@@ -320,7 +319,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
     }
 
     @Test
-    public void isCodeJournalValid() {
+    public void testIsCodeJournalValid() {
 
         // Journal existant
         assertTrue(comptabiliteDaoImpl.isCodeJournalValid("BQ"));
@@ -331,7 +330,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
     @Test
     @Order(15)
-    public void getListSequenceEcritureComptable() {
+    public void testGetListSequenceEcritureComptable() {
         List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         assertEquals(4, list.size());
     }
@@ -339,7 +338,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
     @Test
     @Order(16)
-    public void insertSequenceEcritureComptable() {
+    public void testInsertSequenceEcritureComptable() {
         comptabiliteDaoImpl.insertSequenceEcritureComptable(2017, "BQ");
         List<SequenceEcritureComptable> list = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         assertEquals(5, list.size());
@@ -348,7 +347,7 @@ public class ComptabiliteDaoImplTest extends AbstractDbConsumer {
 
     @Test
     @Order(17)
-    public void updateSequenceEcritureComptable() throws NotFoundException {
+    public void testUdateSequenceEcritureComptable() throws NotFoundException {
         List<SequenceEcritureComptable> listBeforeUpdate = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         SequenceEcritureComptable sequenceBeforeUpdate = listBeforeUpdate.get(0);
 

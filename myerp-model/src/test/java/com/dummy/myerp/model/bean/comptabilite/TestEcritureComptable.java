@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-public class EcritureComptableTest {
+public class TestEcritureComptable {
 
 
 //    private LigneEcritureComptable createLigne(Integer pCompteComptableNumero, String pDebit, String pCredit) {
@@ -38,7 +38,7 @@ public class EcritureComptableTest {
 
 
     @Test
-    public void getTotalDebit() {
+    public void testGetTotalDebit() {
 
         EcritureComptable ecritureComptable1  = new EcritureComptable();
         ecritureComptable1.getListLigneEcriture().add(debit_positif_450);
@@ -74,7 +74,7 @@ public class EcritureComptableTest {
     }
 
     @Test
-    public void getTotalCredit() {
+    public void testGetTotalCredit() {
 
         EcritureComptable ecritureComptable1  = new EcritureComptable();
         ecritureComptable1.getListLigneEcriture().add(debit_positif_450);
@@ -111,7 +111,7 @@ public class EcritureComptableTest {
 
 
     @Test
-    public void isEquilibree() {
+    public void testIsEquilibree() {
         EcritureComptable ecritureComptable = new EcritureComptable();
 
         ecritureComptable.getListLigneEcriture().add(debit_positif_450);

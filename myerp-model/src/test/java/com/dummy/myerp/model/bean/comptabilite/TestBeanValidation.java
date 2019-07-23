@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class is dedicated to the testing of constraint annotations set on the beans
  */
-public class BeanValidationTests {
+public class TestBeanValidation {
 
     private static Validator validator;
 
@@ -32,7 +32,7 @@ public class BeanValidationTests {
      * Test d'une annotation prédéfinie (@Size sur l'attribut code de {@link JournalComptable})
      */
     @Test
-    public void JournalComptableConstraintsTest(){
+    public void testJournalComptableConstraints(){
 
         JournalComptable journalComptable = new JournalComptable("BQ", "journal de banque");
         Set<ConstraintViolation<JournalComptable>> constraintViolations = validator.validate(journalComptable);
@@ -49,7 +49,7 @@ public class BeanValidationTests {
      * Test de l'annotation personnalisée (@MontantComptable), utilisée dans des attributs de {@link LigneEcritureComptable}
      */
     @Test
-    public void ContraintMontantComptableTest(){
+    public void testMontantComptableConstraints(){
 
         CompteComptable compteComptable = new CompteComptable(1232, "Subventions publiques");
         LigneEcritureComptable ligneEcritureComptable = new LigneEcritureComptable( compteComptable, "Subvention Conseil Général", new BigDecimal("150000"), null );
