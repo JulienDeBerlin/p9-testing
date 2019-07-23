@@ -13,7 +13,7 @@ services:
 
 before_script:
   - psql -c 'create database db_myerp;' -U postgres
-  - psql db_myerp < /createDatabase.sql
+  - psql db_myerp < createDatabase.sql
 
 
 script:
