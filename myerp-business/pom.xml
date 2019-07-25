@@ -165,6 +165,11 @@
                     <testResource>
                         <directory>src/integration-test-business/resources</directory>
                     </testResource>
+
+                    <testResource>
+                        <directory>src/integration-test-consumer/resources</directory>
+                    </testResource>
+
                 </testResources>
             </build>
         </profile>
