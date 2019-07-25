@@ -76,6 +76,7 @@ public class SequenceEcritureComptable {
         final String vSEP = ", ";
         vStB.append("{")
                 .append("annee=").append(annee)
+                .append(vSEP).append("journal=").append(journalCode)
                 .append(vSEP).append("derniereValeur=").append(derniereValeur)
                 .append("}");
         return vStB.toString();

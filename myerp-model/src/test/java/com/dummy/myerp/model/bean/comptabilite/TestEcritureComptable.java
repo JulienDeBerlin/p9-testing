@@ -3,7 +3,10 @@ package com.dummy.myerp.model.bean.comptabilite;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
+import static java.sql.Date.valueOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -136,5 +139,39 @@ public class TestEcritureComptable {
         assertTrue(ecritureComptable.isEquilibree(), "Equilibrée");
     }
 
+
+    @Test
+    public void testToString(){
+
+
+        LocalDate localDate = LocalDate.of(2020, 12, 28);
+        Date date = valueOf(localDate);
+
+        JournalComptable journalComptable = new JournalComptable();
+        journalComptable.setCode("AX");
+        journalComptable.setLibelle("Journal de banque");
+
+        EcritureComptable ecritureComptable = new EcritureComptable();
+        ecritureComptable.setReference("AX-2020/00076");
+        ecritureComptable.setDate(date);
+        ecritureComptable.setId(23);
+        ecritureComptable.setJournal(journalComptable);
+        ecritureComptable.setLibelle("Libellé");
+
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                null, new BigDecimal(123),
+                null));
+        ecritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                null, null,
+                new BigDecimal(123)));
+
+
+
+        assertEquals("EcritureComptable{id=23, journal=JournalComptable{code='AX', libelle='Journal de banque'}, reference='AX-2020/00076', date=2020-12-28, libelle='Libellé', totalDebit=123.00, totalCredit=123.00, listLigneEcriture=[\n" +
+                "LigneEcritureComptable{compteComptable=CompteComptable{numero=401, libelle='null'}, libelle='null', debit=123, credit=null}\n" +
+                "LigneEcritureComptable{compteComptable=CompteComptable{numero=411, libelle='null'}, libelle='null', debit=null, credit=123}\n" +
+                "]}", ecritureComptable.toString());
+
+    }
 
 }

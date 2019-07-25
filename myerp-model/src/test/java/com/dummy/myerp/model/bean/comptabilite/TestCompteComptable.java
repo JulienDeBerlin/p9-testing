@@ -36,4 +36,16 @@ public class TestCompteComptable {
         assertEquals(null, CompteComptable.getByNumero(list3elements, 5555), "3 elements, account not available");
 
     }
+
+
+    @Test
+    public void testToString(){
+
+        CompteComptable compteComptable = new CompteComptable();
+        compteComptable.setLibelle("Fournisseurs");
+        compteComptable.setNumero(325);
+        assertEquals("CompteComptable{numero=325, libelle='Fournisseurs'}", compteComptable.toString());
+
+    }
+
 }
