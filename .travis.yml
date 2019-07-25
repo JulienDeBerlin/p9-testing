@@ -17,7 +17,7 @@ before_script:
 
 
 script:
-  - mvn clean install
+  - mvn clean install -P integration-test-business,integration-test-consumer
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
