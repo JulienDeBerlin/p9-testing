@@ -47,8 +47,6 @@ public class ITComptabiliteManagerImpl {
 
     @BeforeAll
     private static void setUp() {
-
-
         ApplicationContext context = new ClassPathXmlApplicationContext("/com/dummy/myerp/business/applicationContext.xml");
         businessProxy = (BusinessProxyImpl) context.getBean("businessProxy");
     }

@@ -9,11 +9,7 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,8 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration("classpath:transactionContextTest.xml")
+
+
 public class TestComptabiliteManagerImpl extends AbstractBusinessManager {
 
 
@@ -428,7 +424,7 @@ public class TestComptabiliteManagerImpl extends AbstractBusinessManager {
     }
 
     @Test
-    @DisplayName("Insert denied")
+    @DisplayName("testInsertEcritureComptable / Insert denied")
     void testInsertEcritureComptableException() throws FunctionalException, NotFoundException {
 
         // Initial setting EcritureComptable
