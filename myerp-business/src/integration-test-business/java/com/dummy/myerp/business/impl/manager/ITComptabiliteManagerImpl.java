@@ -34,17 +34,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // La datasource est détectée automatiquement !
 @SqlGroup({
-        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/truncateDB.sql"),
-        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/com/dummy/myerp/consumer/populateDB.sql")})
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/truncateDB.sql"),
+        @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:/populateDB.sql")})
 
 
 public class ITComptabiliteManagerImpl {
+
+
 
     private static BusinessProxy businessProxy;
 
 
     @BeforeAll
     private static void setUp() {
+
+
         ApplicationContext context = new ClassPathXmlApplicationContext("/com/dummy/myerp/business/applicationContext.xml");
         businessProxy = (BusinessProxyImpl) context.getBean("businessProxy");
     }

@@ -10,9 +10,6 @@
     <import resource="classpath:com/dummy/myerp/consumer/applicationContext.xml"/>
     <import resource="classpath:com/dummy/myerp/model/applicationContext.xml"/>
 
-    <!-- ========== Transaction Managers ========== -->
-    <import resource="transactionContext.xml"/>
-
 
     <!-- ====================   Business-Proxy   ==================== -->
 
@@ -25,9 +22,19 @@
     </bean>
 
 
+    <!-- Transaction Manager -->
+    <bean id="transactionManager"
+          class="com.dummy.myerp.business.impl.TransactionManager"
+          scope="singleton"
+          factory-method="getInstance">
+        <constructor-arg ref="txManagerMYERP"/>
+    </bean>
 
 
-
+    <!-- PlatformTransactionManager pour le DataSource MYERP -->
+    <bean id="txManagerMYERP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceMYERP"/>
+    </bean>
 
 
 </beans>
