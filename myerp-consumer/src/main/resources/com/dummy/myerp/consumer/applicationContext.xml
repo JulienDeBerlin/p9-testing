@@ -51,7 +51,7 @@
         <property name="locations">
             <list>
                 <value>classpath:com/dummy/myerp/consumer/database.properties</value>
-                <value>classpath:/com.dummy.myerp.consumer/ITdatabase.properties</value>
+                <value>classpath:/ITdatabase.properties</value>
             </list>
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
