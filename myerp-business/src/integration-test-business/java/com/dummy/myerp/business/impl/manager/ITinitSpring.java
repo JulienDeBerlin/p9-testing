@@ -1,3 +1,5 @@
+package com.dummy.myerp.business.impl.manager;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Classe de test de l'initialisation du contexte Spring
  */
-public class TestInitSpring extends TestBusinessAbstract {
+public class ITinitSpring extends TestBusinessAbstract {
 
     /**
      * Constructeur.
      */
-    public TestInitSpring() {
+    public ITinitSpring() {
         super();
     }
 

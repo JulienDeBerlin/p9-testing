@@ -1,3 +1,5 @@
+package com.dummy.myerp.business.impl.manager;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -35,15 +37,15 @@ public final class SpringRegistry {
      */
     private SpringRegistry() {
         super();
-        SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry() - Initialisation du contexte Spring");
+        SpringRegistry.LOGGER.debug("[DEBUT] com.dummy.myerp.business.impl.manager.SpringRegistry() - Initialisation du contexte Spring");
         this.contextAppli = new ClassPathXmlApplicationContext(SpringRegistry.CONTEXT_APPLI_LOCATION);
-        SpringRegistry.LOGGER.debug("[FIN] SpringRegistry() - Initialisation du contexte Spring");
+        SpringRegistry.LOGGER.debug("[FIN] com.dummy.myerp.business.impl.manager.SpringRegistry() - Initialisation du contexte Spring");
     }
 
     /**
      * Renvoie l'instance unique de la classe (design pattern Singleton).
      *
-     * @return SpringRegistry
+     * @return com.dummy.myerp.business.impl.manager.SpringRegistry
      */
     protected static final SpringRegistry getInstance() {
         return SpringRegistry.INSTANCE;
@@ -66,9 +68,9 @@ public final class SpringRegistry {
      * @return Object
      */
     protected static Object getBean(String pBeanId) {
-        SpringRegistry.LOGGER.debug("[DEBUT] SpringRegistry.getBean() - Bean ID : " + pBeanId);
+        SpringRegistry.LOGGER.debug("[DEBUT] com.dummy.myerp.business.impl.manager.SpringRegistry.getBean() - Bean ID : " + pBeanId);
         Object vBean = SpringRegistry.getInstance().contextAppli.getBean(pBeanId);
-        SpringRegistry.LOGGER.debug("[FIN] SpringRegistry.getBean() - Bean ID : " + pBeanId);
+        SpringRegistry.LOGGER.debug("[FIN] com.dummy.myerp.business.impl.manager.SpringRegistry.getBean() - Bean ID : " + pBeanId);
         return vBean;
     }
 
