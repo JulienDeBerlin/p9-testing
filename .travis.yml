@@ -6,6 +6,10 @@ cache:
 directories:
   - $HOME//Users/admin/Documents/PROGRAMMING/RESSOURCE/MAVEN
 
+env:
+  global:
+    - CODECOV_TOKEN="2f02aa5a-e627-44b0-9b1d-c7595b210c50"
+
 install: true
 
 services:
