@@ -23,5 +23,7 @@ before_script:
 script:
   - mvn clean install -P integration-test-business,integration-test-consumer
 
+
 after_success:
+  - mvn jacoco:report coveralls:report
   - bash <(curl -s https://codecov.io/bash)

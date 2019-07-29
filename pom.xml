@@ -415,6 +415,15 @@
                     <version>3.0.0-M3</version>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.eluder.coveralls</groupId>
+                    <artifactId>coveralls-maven-plugin</artifactId>
+                    <version>4.3.0</version>
+                    <configuration>
+                        <repoToken>kHxY9Wg1cs3PDJJ5T4gTJGdZXD7PN4wdv</repoToken>
+                    </configuration>
+                </plugin>
+
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
