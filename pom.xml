@@ -354,33 +354,59 @@
                 </plugin>
 
                 <!-- ===== Test / Reporting ===== -->
+
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.2</version>
+
+                    <executions>
+
+                        <execution>
+                            <id>pre-unit-test</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+
+                        <execution>
+                            <id>post-unit-test</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+
+                        <execution>
+                            <id>pre-integration-test</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+
+                        <execution>
+                            <id>post-integration-test</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+
+                    </executions>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M3</version>
-                    <configuration>
-                        <!-- Sets the VM argument line used when unit tests are run. -->
-                        <argLine>${surefireArgLine}</argLine>
-                    </configuration>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.0.0-M3</version>
-                    <executions>
-                        <execution>
-                            <id>integration-test</id>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                            <configuration>
-                                <!-- Sets the VM argument line used when integration tests are run. -->
-                                <argLine>${failsafeArgLine}</argLine>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
@@ -427,59 +453,9 @@
                     <version>1.10</version>
                 </plugin>
 
-
-                <!-- ===== Test coverage ===== -->
-
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.2</version>
-
-                    <executions>
-                        <execution>
-                            <id>pre-unit-test</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                            <configuration>
-                                <propertyName>surefireArgLine</propertyName>
-                            </configuration>
-                        </execution>
-
-                        <execution>
-                            <id>post-unit-test</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-
-                        <execution>
-                            <id>pre-integration-test</id>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                            <configuration>
-                                <propertyName>failsafeArgLine</propertyName>
-                            </configuration>
-                        </execution>
-
-                        <execution>
-                            <id>post-integration-test</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
             </plugins>
 
         </pluginManagement>
-
 
     </build>
 
