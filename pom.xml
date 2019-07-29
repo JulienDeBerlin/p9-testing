@@ -360,41 +360,47 @@
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.2</version>
 
-                    <executions>
+                    <!--<executions>-->
 
-                        <execution>
-                            <id>pre-unit-test</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>pre-unit-test</id>-->
+                            <!--<phase>test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>prepare-agent</goal>-->
+                            <!--</goals>-->
+                            <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<propertyName>surefireArgLine</propertyName>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                        <!--</execution>-->
 
-                        <execution>
-                            <id>post-unit-test</id>
-                            <phase>test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>post-unit-test</id>-->
+                            <!--<phase>test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>report</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
 
-                        <execution>
-                            <id>pre-integration-test</id>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>pre-integration-test</id>-->
+                            <!--<phase>pre-integration-test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>prepare-agent</goal>-->
+                            <!--</goals>-->
+                            <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<propertyName>failsafeArgLine</propertyName>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                        <!--</execution>-->
 
-                        <execution>
-                            <id>post-integration-test</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>post-integration-test</id>-->
+                            <!--<phase>post-integration-test</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>report</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
 
-                    </executions>
+                    <!--</executions>-->
                 </plugin>
 
                 <plugin>
@@ -456,6 +462,58 @@
             </plugins>
 
         </pluginManagement>
+
+
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.jacoco</groupId>-->
+                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
+                <!--<version>0.8.2</version>-->
+
+                <!--<executions>-->
+
+                    <!--<execution>-->
+                        <!--<id>pre-unit-test</id>-->
+                        <!--<phase>test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>prepare-agent</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<propertyName>surefireArgLine</propertyName>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>post-unit-test</id>-->
+                        <!--<phase>test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>report</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>pre-integration-test</id>-->
+                        <!--<phase>pre-integration-test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>prepare-agent</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<propertyName>failsafeArgLine</propertyName>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                    <!--</execution>-->
+
+                    <!--<execution>-->
+                        <!--<id>post-integration-test</id>-->
+                        <!--<phase>post-integration-test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>report</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+
 
     </build>
 

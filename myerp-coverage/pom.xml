@@ -20,28 +20,21 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-model</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-consumer</artifactId>
-            <scope>compile</scope>
-
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-technical</artifactId>
-            <scope>compile</scope>
-
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myerp-business</artifactId>
-            <scope>compile</scope>
-
         </dependency>
 
     </dependencies>
@@ -53,13 +46,13 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <executions>
-                    <!--&lt;!&ndash;aggregated unit test coverage report &ndash;&gt;-->
-                    <!--<execution>-->
-                        <!--<id>aggregate-reports-ut</id>-->
-                        <!--<phase>test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>report-aggregate</goal>-->
-                        <!--</goals>-->
+                    <!--aggregated unit test coverage report -->
+                    <execution>
+                        <id>aggregate-reports-ut</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
                         <!--<configuration>-->
                             <!--<title>Maven Multimodule Coverage Demo: Coverage of Unit Tests</title>-->
                             <!--<outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-ut</outputDirectory>-->
@@ -67,7 +60,7 @@
                                 <!--<dataFileExclude>**/target/jacoco-it.exec</dataFileExclude>-->
                             <!--</dataFileExcludes>-->
                         <!--</configuration>-->
-                    <!--</execution>-->
+                    </execution>
                     <!--&lt;!&ndash; aggregated integration test coverage report &ndash;&gt;-->
                     <!--<execution>-->
                         <!--<id>aggregate-reports-it</id>-->
@@ -84,17 +77,30 @@
                         <!--</configuration>-->
                     <!--</execution>-->
                     <!-- aggregated overallall test coverage report -->
+
                     <execution>
-                        <id>aggregate-reports-all</id>
+                        <id>aggregate-reports-it</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
                         <!--<configuration>-->
-                            <!--<title>Maven Multimodule Coverage Demo: Overall Coverage </title>-->
-                            <!--<outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-all</outputDirectory>-->
+                        <!--<title>Maven Multimodule Coverage Demo: Overall Coverage </title>-->
+                        <!--<outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-all</outputDirectory>-->
                         <!--</configuration>-->
                     </execution>
+
+                    <!--<execution>-->
+                        <!--<id>aggregate-reports-all</id>-->
+                        <!--<phase>verify</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>report-aggregate</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<title>Maven Multimodule Coverage Demo: Overall Coverage </title>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-all</outputDirectory>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
 
