@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>myerp</artifactId>
+        <groupId>com.dummy.myerp</groupId>
+        <version>1.x.x-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>myerp-coverage</artifactId>
+
+    <!-- ===== General information ===== -->
+    <name>${project.artifactId}</name>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-consumer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-technical</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myerp-business</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <!--aggregated unit test coverage report -->
+                    <execution>
+                        <id>aggregate-reports-ut</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <title>Maven Multimodule Coverage Demo: Coverage of Unit Tests</title>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-ut</outputDirectory>
+                            <dataFileExcludes>
+                                <dataFileExclude>**/target/jacoco-it.exec</dataFileExclude>
+                            </dataFileExcludes>
+                        </configuration>
+                    </execution>
+                    <!-- aggregated integration test coverage report -->
+                    <execution>
+                        <id>aggregate-reports-it</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <title>Maven Multimodule Coverage Demo: Coverage of Integration Tests</title>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-it</outputDirectory>
+                            <dataFileExcludes>
+                                <dataFileExclude>**/target/jacoco.exec</dataFileExclude>
+                            </dataFileExcludes>
+                        </configuration>
+                    </execution>
+                    <!-- aggregated overallall test coverage report -->
+                    <execution>
+                        <id>aggregate-reports-all</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <title>Maven Multimodule Coverage Demo: Overall Coverage </title>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-all</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
