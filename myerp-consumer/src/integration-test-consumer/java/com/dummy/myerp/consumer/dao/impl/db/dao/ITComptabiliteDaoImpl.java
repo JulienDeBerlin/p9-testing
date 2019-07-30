@@ -347,7 +347,7 @@ public class ITComptabiliteDaoImpl extends AbstractDbConsumer {
 
     @Test
     @Order(17)
-    public void testUdateSequenceEcritureComptable() throws NotFoundException {
+    public void testUpdateSequenceEcritureComptable() throws NotFoundException {
         List<SequenceEcritureComptable> listBeforeUpdate = comptabiliteDaoImpl.getListSequenceEcritureComptable();
         SequenceEcritureComptable sequenceBeforeUpdate = listBeforeUpdate.get(0);
 
