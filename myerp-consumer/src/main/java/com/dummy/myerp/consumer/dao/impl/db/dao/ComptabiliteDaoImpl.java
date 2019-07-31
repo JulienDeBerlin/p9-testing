@@ -19,7 +19,7 @@ import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.dummy.myerp.technical.staticTools.StaticTools.convertDateToCalendar;
+import static com.dummy.myerp.technical.statictools.StaticTools.convertDateToCalendar;
 
 
 /**
@@ -366,7 +366,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("code", codeJournal);
 
         try {
-            JournalComptable journalComptable = jdbcTemplate.queryForObject(sqlQuery, vSqlParams, new BeanPropertyRowMapper<>(JournalComptable.class));
+            jdbcTemplate.queryForObject(sqlQuery, vSqlParams, new BeanPropertyRowMapper<>(JournalComptable.class));
             return true;
         } catch (EmptyResultDataAccessException vEx) {
             return false;

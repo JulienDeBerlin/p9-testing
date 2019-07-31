@@ -1,4 +1,4 @@
-package com.dummy.myerp.technical.staticTools;
+package com.dummy.myerp.technical.statictools;
 
 import org.junit.jupiter.api.Test;
 

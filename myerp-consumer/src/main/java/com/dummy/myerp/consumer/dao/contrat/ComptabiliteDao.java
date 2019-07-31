@@ -39,10 +39,10 @@ public interface ComptabiliteDao {
     /**
      * Renvoie la liste des lignes d'écriture comptable correspondant à l'id d'une écriture donnée
      *
-     * @param ecriture_id l'id de l'écriture dont on veut récupérer les lignes d'écriture
+     * @param ecritureId l'id de l'écriture dont on veut récupérer les lignes d'écriture
      * @return
      */
-    List<LigneEcritureComptable> getListLignesEcritureComptable(int ecriture_id);
+    List<LigneEcritureComptable> getListLignesEcritureComptable(int ecritureId);
 
     /**
      * Renvoie l'Écriture Comptable d'id {@code pId}.

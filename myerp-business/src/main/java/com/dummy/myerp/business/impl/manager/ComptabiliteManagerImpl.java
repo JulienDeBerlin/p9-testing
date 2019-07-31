@@ -14,7 +14,7 @@ import javax.validation.ConstraintViolation;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static com.dummy.myerp.technical.staticTools.StaticTools.convertDateToCalendar;
+import static com.dummy.myerp.technical.statictools.StaticTools.convertDateToCalendar;
 
 
 /**
@@ -262,7 +262,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 if (pEcritureComptable.getId() == null || !pEcritureComptable.getId().equals(vECRef.getId())) {
                     throw new FunctionalException("La BDD contient une autre écriture comptable avec la même référence.");
                 }
-            } catch (NotFoundException vEx) {
+            } catch (NotFoundException vEx){
             }
         }
     }
