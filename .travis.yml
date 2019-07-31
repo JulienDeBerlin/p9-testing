@@ -2,9 +2,9 @@ language: java
 
 jdk: openjdk8
 
-cache: bundler
-#directories:
-#  - $HOME//Users/admin/Documents/PROGRAMMING/RESSOURCE/MAVEN
+cache:
+  directories:
+    - $HOME/.m2
 
 env:
   global:
