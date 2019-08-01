@@ -1,4 +1,4 @@
-#  Openclassrooms parcours Java
+#  OpenClassrooms parcours Java
 ## Projet 9: Testez vos développements Java !
 
 
