@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-// Ceci est un commentaire
-
 /**
  * Bean représentant un Compte Comptable
  */
